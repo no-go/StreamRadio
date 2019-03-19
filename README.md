@@ -1,5 +1,7 @@
 # StreamRadio (Sweded)
 
+![Logo](app/src/main/res/mipmap-xxhdpi/logo.png)
+
 This App plays network radio channels on Android.
 
 ![Screenshot](metadata/en-US/images/phoneScreenshots/1.png)
