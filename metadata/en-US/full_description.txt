@@ -4,7 +4,7 @@ This app plays network radio channels on Android.
 
 👉 category icon
 👉 Add your custom channels to list
-👉 A day (and night) mode is added (Day: 6:00-17:59)
+👉 A day (and night) mode is added (Day: 6:00-18:59)
 
 Some predefined channels are already selectable. The predefined List: <tt>app/src/main/res/raw/channel_list.properties</tt>
 

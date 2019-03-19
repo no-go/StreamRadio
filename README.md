@@ -10,7 +10,7 @@ Add your custom channels to list.
 
 ![Screenshot](metadata/en-US/images/phoneScreenshots/2.png)
 
-A day (and night) mode is added (Day: 6:00-17:59)
+A day (and night) mode is added (Day: 6:00-18:59)
 
 ![Screenshot](metadata/en-US/images/phoneScreenshots/3.png)
 
