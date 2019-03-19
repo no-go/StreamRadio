@@ -1,20 +1,26 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.1"
+    compileSdkVersion 28
 
     defaultConfig {
-        applicationId "starcom.snd"
+        applicationId "starcom.snd.geschwedet"
         minSdkVersion 19
-        targetSdkVersion 27
+        targetSdkVersion 26
+        versionCode 20
+        versionName "2.0"
     }
 
     buildTypes {
-        all {
+        release {
             minifyEnabled true
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "${variant.applicationId}.apk"
+                }
+            }
         }
     }
 
@@ -36,4 +42,7 @@ configurations.all {
  **/
 
 dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
