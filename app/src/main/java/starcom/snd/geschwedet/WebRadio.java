@@ -12,9 +12,14 @@ import starcom.snd.geschwedet.listener.CallStateListener;
 import starcom.snd.geschwedet.listener.CallbackListener;
 import starcom.snd.geschwedet.listener.StateListener;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.telephony.PhoneStateListener;
@@ -36,12 +41,12 @@ import java.util.Calendar;
 
 public class WebRadio extends AppCompatActivity implements OnClickListener, StateListener, CallbackListener
 {
+  public static final String NOTIFICATION_CHANNEL_ID_LOCATION = "starcom_snd_channel_location";
   private int NOTIFICATION = R.string.app_name;
   final static String TXT_LABEL = "WebStreamPlayer";
   final static String TXT_NOTIFICATION = "StreamPlayer";
   static WebRadioChannel lastPlayChannel;
   static WebRadioChannel lastSelectedChannel;
-  static NotificationManager mNM;
   TextView label;
   Button playButton;
   boolean bPlayButton = false;
@@ -188,27 +193,44 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
   private void showNotification()
   {
     PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, WebRadio.class), PendingIntent.FLAG_UPDATE_CURRENT);
-    if (mNM==null)
-    {
-      mNM = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+    NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+    if (Build.VERSION.SDK_INT >= 26) {
+      NotificationManager mngr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+      if (mngr.getNotificationChannel(NOTIFICATION_CHANNEL_ID_LOCATION) == null) {
+        NotificationChannel channel = new NotificationChannel(
+                NOTIFICATION_CHANNEL_ID_LOCATION,
+                TXT_NOTIFICATION,
+                NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription(TXT_NOTIFICATION);
+        channel.enableLights(false);
+        channel.enableVibration(false);
+        mngr.createNotificationChannel(channel);
+      }
     }
-    Notification notification = new Notification.Builder(this)
+
+    Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
+    NotificationCompat.BigTextStyle bigStyle = new NotificationCompat.BigTextStyle();
+    bigStyle.bigText(lastPlayChannel.getName());
+
+    Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID_LOCATION)
         .setSmallIcon(R.mipmap.logo)  // the status icon
-        .setTicker(TXT_NOTIFICATION)  // the status text
-        .setWhen(System.currentTimeMillis())  // the time stamp
+        .setLargeIcon(largeIcon)
+        .setStyle(bigStyle)
+        .setTicker(lastPlayChannel.getName())  // the status text
+        .setWhen(Calendar.getInstance().getTimeInMillis())  // the time stamp
         .setContentTitle(TXT_NOTIFICATION)  // the label of the entry
-        .setContentText(TXT_NOTIFICATION)  // the contents of the entry
+        .setContentText(lastPlayChannel.getName())  // the contents of the entry
         .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
-        .setOngoing(true)
+        .setOngoing(true)                 // remove/only cancel by stop button
         .build();
     mNM.notify(NOTIFICATION, notification);
   }
 
   void hideNotification()
   {
-    if (mNM==null) { return; }
+    NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     mNM.cancel(NOTIFICATION);
-    mNM = null;
   }
 
   @Override

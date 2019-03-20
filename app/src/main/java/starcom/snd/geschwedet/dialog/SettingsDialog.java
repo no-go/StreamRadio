@@ -84,6 +84,18 @@ public class SettingsDialog extends DialogFragmentWithListener implements OnClic
   }
 
   @Override
+  public void onResume()
+  {
+    super.onResume();
+    if (settingsType == SettingsType.EditChannel) {
+      ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+      params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+      params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+      getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+    }
+  }
+
+  @Override
   public void onClick(View v)
   {
     if (v.getId()==R.id.editChannel)
@@ -144,7 +156,11 @@ public class SettingsDialog extends DialogFragmentWithListener implements OnClic
       editNameDialog.setCallbackListener(callback);
       //TODO: DialogFragmentWithCallback
     }
-    catch (java.lang.InstantiationException | IllegalAccessException e)
+    catch (java.lang.InstantiationException e)
+    {
+      LoggingSystem.severe(SettingsDialog.class, e, "Error creating class: "+c);
+    }
+    catch (IllegalAccessException e)
     {
       LoggingSystem.severe(SettingsDialog.class, e, "Error creating class: "+c);
     }

@@ -5,10 +5,10 @@ android {
 
     defaultConfig {
         applicationId "starcom.snd.geschwedet"
-        minSdkVersion 19
+        minSdkVersion 16
         targetSdkVersion 26
-        versionCode 20
-        versionName "2.0"
+        versionCode 21
+        versionName "2.1"
     }
 
     buildTypes {

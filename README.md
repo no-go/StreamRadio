@@ -14,6 +14,18 @@ A day (and night) mode is added (Day: 6:00-18:59)
 
 ![Screenshot](metadata/en-US/images/phoneScreenshots/3.png)
 
+Edit dialog
+
+![Screenshot](metadata/en-US/images/phoneScreenshots/4.png)
+
+Notification (Android 4.2)
+
+![Screenshot](metadata/en-US/images/phoneScreenshots/5.png)
+
+Notification (Android 8.1)
+
+![Screenshot](metadata/en-US/images/phoneScreenshots/6.png)
+
 Some predefined channels are already selectable.
 The predefined List: `app/src/main/res/raw/channel_list.properties`
 
@@ -21,4 +33,4 @@ It is a fork of [StreamRadio](https://github.com/Starcommander/StreamRadio) but 
 
 ## Get the App
 
-You can get a signed APK (4.4.4+) from [here](https://raw.githubusercontent.com/no-go/StreamRadio/master/app/release/starcom.snd.geschwedet.apk)
+You can get a signed APK (4.1+) from [here](https://raw.githubusercontent.com/no-go/StreamRadio/master/app/release/starcom.snd.geschwedet.apk)
