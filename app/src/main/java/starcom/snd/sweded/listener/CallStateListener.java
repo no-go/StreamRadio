@@ -1,7 +1,7 @@
-package starcom.snd.geschwedet.listener;
+package starcom.snd.sweded.listener;
 
-import starcom.snd.geschwedet.WebStreamPlayer;
-import starcom.snd.geschwedet.WebStreamPlayer.State;
+import starcom.snd.sweded.WebStreamPlayer;
+import starcom.snd.sweded.WebStreamPlayer.State;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 

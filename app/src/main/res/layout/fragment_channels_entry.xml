@@ -8,7 +8,7 @@
         android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:gravity="start" />
+        android:gravity="center_vertical" />
 
     <ImageView
         android:id="@+id/icon"
@@ -22,8 +22,8 @@
         android:id="@+id/channelTxt"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
-        android:textSize="24sp"
-        android:gravity="start"
+        android:textSize="18dp"
+        android:gravity="center_vertical"
         android:text="" />
 
 </LinearLayout>

@@ -1,9 +1,8 @@
-package starcom.snd.geschwedet.dialog;
+package starcom.snd.sweded.dialog;
 
-import starcom.debug.LoggingSystem;
-import starcom.snd.geschwedet.R;
-import starcom.snd.geschwedet.WebRadioChannel;
-import starcom.snd.geschwedet.array.ChannelList;
+import starcom.snd.sweded.R;
+import starcom.snd.sweded.WebRadioChannel;
+import starcom.snd.sweded.array.ChannelList;
 
 import java.util.ArrayList;
 
@@ -15,8 +14,8 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import starcom.snd.geschwedet.array.CustomArrayAdapter;
-import starcom.snd.geschwedet.listener.DialogFragmentWithListener;
+import starcom.snd.sweded.array.CustomArrayAdapter;
+import starcom.snd.sweded.listener.DialogFragmentWithListener;
 
 public class ChannelsDialog extends DialogFragmentWithListener implements OnClickListener
 {
@@ -50,7 +49,6 @@ public class ChannelsDialog extends DialogFragmentWithListener implements OnClic
   {
     if (v.getId()==R.id.okChannelsButton)
     {
-      LoggingSystem.info(ChannelsDialog.class, "Selected: selectChannelsOk");
       dismiss();
     }
   }

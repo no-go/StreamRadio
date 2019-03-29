@@ -37,12 +37,4 @@
             android:text="@string/add_channel"
             android:id="@+id/addChannel" />
 
-        <Button
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="@string/about"
-            android:id="@+id/about" />
-
 </LinearLayout>

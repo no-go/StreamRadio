@@ -1,9 +1,7 @@
-package starcom.snd.geschwedet;
-
+package starcom.snd.sweded;
 
 public class WebRadioChannel implements Comparable<WebRadioChannel>
 {
-  enum Genre {Electro, Rock, Oldies, Undefined};
   private String radioName;
   private String radioUrl;
   private boolean selected = true;

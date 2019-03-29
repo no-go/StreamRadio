@@ -1,25 +1,19 @@
-package starcom.snd.geschwedet;
+package starcom.snd.sweded;
 
-import starcom.debug.LoggingSystem;
-import starcom.snd.geschwedet.WebStreamPlayer.State;
-
-import starcom.snd.geschwedet.array.ChannelList;
-import starcom.snd.geschwedet.array.SimpleArrayAdapter;
-import starcom.snd.geschwedet.dialog.ChannelsDialog;
-import starcom.snd.geschwedet.dialog.SettingsDialog;
-import starcom.snd.geschwedet.dialog.TextDialog;
-import starcom.snd.geschwedet.listener.CallStateListener;
-import starcom.snd.geschwedet.listener.CallbackListener;
-import starcom.snd.geschwedet.listener.StateListener;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import starcom.snd.sweded.WebStreamPlayer.State;
+import starcom.snd.sweded.array.ChannelList;
+import starcom.snd.sweded.array.SimpleArrayAdapter;
+import starcom.snd.sweded.dialog.ChannelsDialog;
+import starcom.snd.sweded.dialog.SettingsDialog;
+import starcom.snd.sweded.listener.CallStateListener;
+import starcom.snd.sweded.listener.CallbackListener;
+import starcom.snd.sweded.listener.StateListener;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
+import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.telephony.PhoneStateListener;
@@ -29,22 +23,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
 import android.os.Bundle;
 import android.widget.Toast;
+import android.media.audiofx.Visualizer;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class WebRadio extends AppCompatActivity implements OnClickListener, StateListener, CallbackListener
 {
-  public static final String NOTIFICATION_CHANNEL_ID_LOCATION = "starcom_snd_channel_location";
-  private int NOTIFICATION = R.string.app_name;
-  final static String TXT_LABEL = "WebStreamPlayer";
-  final static String TXT_NOTIFICATION = "StreamPlayer";
   static WebRadioChannel lastPlayChannel;
   static WebRadioChannel lastSelectedChannel;
   TextView label;
@@ -53,19 +44,24 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
   Spinner choice;
   WebStreamPlayer streamPlayer;
   int progress = 100;
+
+  private SharedPreferences mPreferences;
+  private Menu optionsmenu;
+  ProgressBar progressBar;
   
   /** Called when the activity is first created. */
   @Override
   public void onCreate(Bundle savedInstanceState)
   {
     super.onCreate(savedInstanceState);
+    mPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     if (savedInstanceState == null)
     {
-      if (inTimeSpan(6, 18))
+      if (mPreferences.getBoolean("is_dark", false))
       {
-        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-      } else {
         getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+      } else {
+        getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
       }
       recreate();
     }
@@ -74,13 +70,13 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
 
     getSupportActionBar().setDisplayShowHomeEnabled(true);
     getSupportActionBar().setIcon(R.mipmap.logo);
-
+    
     playButton = (Button) findViewById(R.id.mainPlay);
     playButton.setOnClickListener(this);
     label = (TextView) findViewById(R.id.mainText);
-    label.setText(TXT_LABEL);
     choice = (Spinner) findViewById(R.id.mainSpinner);
-    
+    progressBar = (ProgressBar) findViewById(R.id.progressBar);
+
     SimpleArrayAdapter arrayAdapter = new SimpleArrayAdapter(this.getApplicationContext());
     choice.setAdapter(arrayAdapter);
     choice.setOnItemSelectedListener(createSpinnerListener());
@@ -148,12 +144,12 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
         WebRadioChannel curChannel = (WebRadioChannel) choice.getSelectedItem();
         streamPlayer.play(curChannel.getUrl());
         lastPlayChannel = curChannel;
-        label.setText(lastPlayChannel.getName());
+        progressBar.setIndeterminate(true);
+        progressBar.setVisibility(View.VISIBLE);
       }
       catch (Exception e)
       {
-        Toast.makeText(getApplicationContext(), "Player is busy", Toast.LENGTH_SHORT).show();
-        LoggingSystem.warn(WebRadio.class, "Cant play because player is busy: "+e);
+        Toast.makeText(getApplicationContext(), R.string.busy, Toast.LENGTH_SHORT).show();
       }
     }
     else
@@ -161,7 +157,7 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
       boolean result = streamPlayer.stop();
       if (result==false)
       {
-        Toast.makeText(getApplicationContext(), "Player is busy", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), R.string.busy, Toast.LENGTH_SHORT).show();
       }
     }
   }
@@ -173,64 +169,24 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
     {
       playButton.setText(R.string.stop);
       bPlayButton = false;
-      showNotification();
+      progressBar.setIndeterminate(false);
+      progressBar.setVisibility(View.INVISIBLE);
+      label.setText(String.format(getString(R.string.playing), lastPlayChannel.getName()));
     }
     else if (state == State.Stopped)
     {
       playButton.setText(R.string.play);
       bPlayButton = true;
-      label.setText(TXT_LABEL);
-      hideNotification();
+      progressBar.setIndeterminate(false);
+      progressBar.setVisibility(View.INVISIBLE);
+      label.setText(""); // empty
     }
-    else if (state == State.Preparing) {}
+    else if (state == State.Preparing) {
+      progressBar.setIndeterminate(true);
+      progressBar.setVisibility(View.VISIBLE);
+      label.setText(""); // empty
+    }
     else if (state == State.Pause) {}
-    else
-    {
-      LoggingSystem.severe(WebRadio.class, "Error, unknown State: "+state);
-    }
-  }
-
-  private void showNotification()
-  {
-    PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, WebRadio.class), PendingIntent.FLAG_UPDATE_CURRENT);
-    NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-    if (Build.VERSION.SDK_INT >= 26) {
-      NotificationManager mngr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-      if (mngr.getNotificationChannel(NOTIFICATION_CHANNEL_ID_LOCATION) == null) {
-        NotificationChannel channel = new NotificationChannel(
-                NOTIFICATION_CHANNEL_ID_LOCATION,
-                TXT_NOTIFICATION,
-                NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription(TXT_NOTIFICATION);
-        channel.enableLights(false);
-        channel.enableVibration(false);
-        mngr.createNotificationChannel(channel);
-      }
-    }
-
-    Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
-    NotificationCompat.BigTextStyle bigStyle = new NotificationCompat.BigTextStyle();
-    bigStyle.bigText(lastPlayChannel.getName());
-
-    Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID_LOCATION)
-        .setSmallIcon(R.mipmap.logo)  // the status icon
-        .setLargeIcon(largeIcon)
-        .setStyle(bigStyle)
-        .setTicker(lastPlayChannel.getName())  // the status text
-        .setWhen(Calendar.getInstance().getTimeInMillis())  // the time stamp
-        .setContentTitle(TXT_NOTIFICATION)  // the label of the entry
-        .setContentText(lastPlayChannel.getName())  // the contents of the entry
-        .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
-        .setOngoing(true)                 // remove/only cancel by stop button
-        .build();
-    mNM.notify(NOTIFICATION, notification);
-  }
-
-  void hideNotification()
-  {
-    NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-    mNM.cancel(NOTIFICATION);
   }
 
   @Override
@@ -238,13 +194,18 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
   {
     if (percent!=0 && percent<=progress) { return; }
     progress = percent;
-    Toast.makeText(getApplicationContext(), "Loading: " + percent + "%", Toast.LENGTH_SHORT).show();
+    Toast.makeText(
+            getApplicationContext(),
+            String.format(getString(R.string.loading), String.valueOf(percent)+"%"),
+            Toast.LENGTH_SHORT
+    ).show();
   }
 
   @Override
   public boolean onCreateOptionsMenu(Menu menu)
   {
     getMenuInflater().inflate(R.menu.options, menu);
+    optionsmenu = menu;
     return true;
   }
 
@@ -257,9 +218,29 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
         SettingsDialog.showSettings(null, getFragmentManager(), "fragment_channels", ChannelsDialog.class, this, null);
         return true;
 
-      case R.id.action_about:
+      case R.id.action_dark:
 
-        SettingsDialog.showSettings(null, getFragmentManager(), "fragment_text", TextDialog.class, null, null);
+        if (item.isChecked())
+        {
+          item.setChecked(false);
+          mPreferences.edit().putBoolean("is_dark", false).apply();
+          getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+          recreate();
+        } else {
+          item.setChecked(true);
+          mPreferences.edit().putBoolean("is_dark", true).apply();
+          getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+          recreate();
+        }
+        return true;
+
+      case R.id.action_power:
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+          Intent intent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
+          intent.setData(Uri.parse("package:" + getPackageName()));
+          startActivity(intent);
+        }
         return true;
 
       default:
@@ -267,12 +248,13 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
     }
   }
 
-      public static boolean inTimeSpan(int startH, int stopH)
-  {
-    int nowH = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
-    if (startH == stopH && startH == nowH) return true;
-    if (startH > stopH && (nowH <= stopH || nowH >= startH)) return true;
-    if (startH < stopH && nowH >= startH && nowH <= stopH) return true;
-    return false;
+  @Override
+  public boolean onPrepareOptionsMenu(Menu menu) {
+    optionsmenu.findItem(R.id.action_dark).setChecked(mPreferences.getBoolean("is_dark", false));
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+    {
+      optionsmenu.findItem(R.id.action_power).setVisible(true);
+    }
+    return super.onPrepareOptionsMenu(menu);
   }
 }

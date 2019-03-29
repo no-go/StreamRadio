@@ -1,12 +1,11 @@
-package starcom.snd.geschwedet.dialog;
+package starcom.snd.sweded.dialog;
 
-import starcom.debug.LoggingSystem;
-import starcom.snd.geschwedet.R;
-import starcom.snd.geschwedet.WebRadioChannel;
-import starcom.snd.geschwedet.array.ChannelList;
-import starcom.snd.geschwedet.array.SimpleArrayAdapter;
-import starcom.snd.geschwedet.listener.CallbackListener;
-import starcom.snd.geschwedet.listener.DialogFragmentWithListener;
+import starcom.snd.sweded.R;
+import starcom.snd.sweded.WebRadioChannel;
+import starcom.snd.sweded.array.ChannelList;
+import starcom.snd.sweded.array.SimpleArrayAdapter;
+import starcom.snd.sweded.listener.CallbackListener;
+import starcom.snd.sweded.listener.DialogFragmentWithListener;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -70,29 +69,13 @@ public class SettingsDialog extends DialogFragmentWithListener implements OnClic
       if (settingsType!=SettingsType.Main) { ((ViewManager)view).removeView(editCsButton); }
       Button rmButton = (Button) view.findViewById(R.id.rmChannel);
       if (settingsType!=SettingsType.CustomChannel) { ((ViewManager)view).removeView(rmButton); }
-      Button aboutButton = (Button) view.findViewById(R.id.about);
-      if (settingsType!=SettingsType.Main) { ((ViewManager)view).removeView(aboutButton); }
-      else { aboutButton.setText(R.string.about); }
       addButton.setOnClickListener(this);
       editButton.setOnClickListener(this);
       editCsButton.setOnClickListener(this);
       rmButton.setOnClickListener(this);
-      aboutButton.setOnClickListener(this);
       view.forceLayout();
     }
     return view;
-  }
-
-  @Override
-  public void onResume()
-  {
-    super.onResume();
-    if (settingsType == SettingsType.EditChannel) {
-      ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
-      params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-      params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-      getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-    }
   }
 
   @Override
@@ -100,20 +83,17 @@ public class SettingsDialog extends DialogFragmentWithListener implements OnClic
   {
     if (v.getId()==R.id.editChannel)
     {
-      LoggingSystem.info(SettingsDialog.class, "Setting selected: editChannel");
       CallbackListener delegateCallback = setCallbackListener(null);
       dismiss();
       showSettings(v, getFragmentManager(), "fragment_edit", SettingsDialog.class, delegateCallback, SettingsType.EditChannel);
     }
     else if (v.getId()==R.id.rmChannel)
     {
-      LoggingSystem.info(SettingsDialog.class, "Setting selected: rmChannel");
       dismiss();
       ChannelList.getInstance().getCustomChannelList().remove(ChannelList.getInstance().getSelectedChannel());
     }
     else if (v.getId()==R.id.addChannel)
     {
-      LoggingSystem.info(SettingsDialog.class, "Setting selected: addChannel");
       CallbackListener delegateCallback = setCallbackListener(null);
       dismiss();
       ChannelList.getInstance().setSelectedChannel(-1, false);
@@ -137,9 +117,6 @@ public class SettingsDialog extends DialogFragmentWithListener implements OnClic
     }
   }
 
-  /** Show this setting where buttons responses to var settingsType.
-    * @param selectedChanel The selected channel for this menu, or -1
-    * @param settingsTypeObj The Type for settings, null on other parent class. **/
   public static void showSettings(View v, FragmentManager fm, String dialogKey, Class<?> c, CallbackListener callback, SettingsType settingsTypeObj)
   { // close existing dialog fragments
     if (settingsTypeObj != null) { settingsType = settingsTypeObj; }
@@ -156,14 +133,19 @@ public class SettingsDialog extends DialogFragmentWithListener implements OnClic
       editNameDialog.setCallbackListener(callback);
       //TODO: DialogFragmentWithCallback
     }
-    catch (java.lang.InstantiationException e)
-    {
-      LoggingSystem.severe(SettingsDialog.class, e, "Error creating class: "+c);
-    }
-    catch (IllegalAccessException e)
-    {
-      LoggingSystem.severe(SettingsDialog.class, e, "Error creating class: "+c);
-    }
+    catch (java.lang.InstantiationException e) { }
+    catch (IllegalAccessException e) {}
   }
 
+  @Override
+  public void onResume()
+  {
+    super.onResume();
+    if (settingsType == SettingsType.EditChannel) {
+      ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+      params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+      params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+      getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+    }
+  }
 }

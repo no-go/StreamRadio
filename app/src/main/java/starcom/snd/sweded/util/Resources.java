@@ -1,4 +1,4 @@
-package starcom.snd.geschwedet.util;
+package starcom.snd.sweded.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 import android.content.Context;
-import starcom.debug.LoggingSystem;
 
 public class Resources
 {
@@ -15,11 +14,12 @@ public class Resources
   public static String readTextRaw(Context context, int rawID)
   {
     StringBuilder sb = new StringBuilder();
-    LoggingSystem.info(Resources.class, "Read raw file!");
-    try (InputStream is = context.getResources().openRawResource(rawID);
-         InputStreamReader isr = new InputStreamReader(is, "UTF-8");
-         BufferedReader br = new BufferedReader(isr))
+    InputStream is = null;
+    try
     {
+      is = context.getResources().openRawResource(rawID);
+      InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+      BufferedReader br = new BufferedReader(isr);
       while (true)
       {
         String line = br.readLine();
@@ -30,7 +30,14 @@ public class Resources
     }
     catch (IOException e)
     {
-      LoggingSystem.severe(Resources.class, e, "Reading raw text");
+      return "";
+    }
+    finally
+    {
+      if (is != null)
+      {
+        try { is.close(); } catch (Exception e) {}
+      }
     }
     return sb.toString();
   }

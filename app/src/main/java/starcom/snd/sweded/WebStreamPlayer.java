@@ -1,9 +1,9 @@
-package starcom.snd.geschwedet;
+package starcom.snd.sweded;
 
 import java.io.IOException;
 
-import starcom.debug.LoggingSystem;
-import starcom.snd.geschwedet.listener.StateListener;
+import starcom.snd.sweded.R;
+import starcom.snd.sweded.listener.StateListener;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
@@ -53,7 +53,6 @@ public class WebStreamPlayer implements OnBufferingUpdateListener, OnCompletionL
     }
     else if (curState==State.Stopped)
     {
-      LoggingSystem.info(WebStreamPlayer.class, "Start preparing of MediaPlayer.");
       getMediaPlayer().setDataSource(url);
       setState(State.Preparing);
       stateListener.stateLoading(0);
@@ -88,7 +87,6 @@ public class WebStreamPlayer implements OnBufferingUpdateListener, OnCompletionL
   private void setState(State state)
   {
     curState = state;
-    LoggingSystem.info(WebStreamPlayer.class, "Set to new State: "+state);
     if (stateListener!=null) { stateListener.stateChanged(state); }
   }
   
@@ -112,7 +110,6 @@ public class WebStreamPlayer implements OnBufferingUpdateListener, OnCompletionL
   public synchronized boolean stop()
   {
     if (curState==State.Stopped) { return true; }
-    LoggingSystem.info(WebStreamPlayer.class, "Stop MediaPlayer.");
     setState(State.Stopped);
     if (mediaPlayer==null) { return true; }
     if (curState==State.Preparing) { return false; }
@@ -127,7 +124,6 @@ public class WebStreamPlayer implements OnBufferingUpdateListener, OnCompletionL
   @Override
   public void onPrepared(MediaPlayer mp)
   {
-    LoggingSystem.info(WebStreamPlayer.class, "Start playing of MediaPlayer.");
     setState(State.Playing);
     stateListener.stateLoading(100);
     mediaPlayer.start();

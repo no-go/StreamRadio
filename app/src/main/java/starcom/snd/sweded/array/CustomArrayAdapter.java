@@ -1,5 +1,6 @@
-package starcom.snd.geschwedet.array;
+package starcom.snd.sweded.array;
 
+import starcom.snd.sweded.R;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,10 +15,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import java.util.ArrayList;
 
-import starcom.snd.geschwedet.R;
-import starcom.snd.geschwedet.WebRadioChannel;
-import starcom.snd.geschwedet.listener.CallbackListener;
-import starcom.snd.geschwedet.dialog.SettingsDialog;
+import starcom.snd.sweded.WebRadioChannel;
+import starcom.snd.sweded.listener.CallbackListener;
+import starcom.snd.sweded.dialog.SettingsDialog;
 
 public class CustomArrayAdapter extends ArrayAdapter<WebRadioChannel> implements CallbackListener
 {

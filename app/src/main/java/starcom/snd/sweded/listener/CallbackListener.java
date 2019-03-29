@@ -1,4 +1,4 @@
-package starcom.snd.geschwedet.listener;
+package starcom.snd.sweded.listener;
 
 public interface CallbackListener
 {

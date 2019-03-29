@@ -1,6 +1,6 @@
-package starcom.snd.geschwedet.listener;
+package starcom.snd.sweded.listener;
 
-import starcom.snd.geschwedet.WebStreamPlayer.State;
+import starcom.snd.sweded.WebStreamPlayer.State;
 
 public interface StateListener
 {

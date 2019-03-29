@@ -1,5 +1,6 @@
-package starcom.snd.geschwedet.array;
+package starcom.snd.sweded.array;
 
+import starcom.snd.sweded.R;
 import java.util.ArrayList;
 import java.io.FileInputStream;
 import java.io.BufferedReader;
@@ -11,12 +12,8 @@ import android.app.Activity;
 import android.widget.Toast;
 import android.content.Context;
 import android.content.SharedPreferences;
-
-import starcom.snd.geschwedet.R;
-import starcom.snd.geschwedet.WebRadioChannel;
-import starcom.snd.geschwedet.util.Resources;
-import starcom.snd.geschwedet.WebRadio;
-import starcom.debug.LoggingSystem;
+import starcom.snd.sweded.WebRadioChannel;
+import starcom.snd.sweded.util.Resources;
 
 public class ChannelList
 {
@@ -108,18 +105,9 @@ public class ChannelList
 
   void checkVersion(Activity activity)
   {
-    String curAppVersion = "";
-    try
-    {
-      curAppVersion = activity.getPackageManager().getPackageInfo(activity.getPackageName(), 0).versionName;
-    }
-    catch (Exception e)
-    {
-      LoggingSystem.severe(ChannelList.class, e, "Error while getting app version!!!!");
-    }
+    String curAppVersion = "sweded";
     SharedPreferences pref = activity.getPreferences(Context.MODE_PRIVATE);
     String storedAppVersion = pref.getString("starcom.snd.versiondate", "");
-    LoggingSystem.info(ChannelList.class, "Version-check: stored=" + storedAppVersion + " cur=" + curAppVersion);
     boolean isNewVersion = !storedAppVersion.equals(curAppVersion);
     ArrayList<WebRadioChannel> channels_raw;
     if (isNewVersion || channels_default.size()==0)
@@ -170,22 +158,32 @@ public class ChannelList
   private static String readChannels(Activity activity, String channelFile)
   {
     StringBuilder sb = new StringBuilder();
-    try(FileInputStream is = activity.openFileInput(channelFile);
-        InputStreamReader sr = new InputStreamReader(is);
-        BufferedReader br = new BufferedReader(sr))
+
+
+    FileInputStream is = null;
+    try
     {
+      is = activity.openFileInput(channelFile);
+      InputStreamReader sr = new InputStreamReader(is);
+      BufferedReader br = new BufferedReader(sr);
       while (br.ready())
       {
         String s = br.readLine();
         sb.append(s).append("\n");
       }
-      return sb.toString();
     }
     catch (IOException e)
     {
-      LoggingSystem.severe(ChannelList.class, e, "Reading channels");
       return "";
     }
+    finally
+    {
+      if (is != null)
+      {
+        try { is.close(); } catch (Exception e) {}
+      }
+    }
+    return sb.toString();
   }
 
   public void writeChannels(Activity activity, String channels_filename)
@@ -204,13 +202,16 @@ public class ChannelList
   
   /** Reads all channels and puts it into arrayAdapter.
    *  @param txt The channels text data.
-   *  @param arrayAdapter The adapter, where to put channels **/
+   **/
   private static ArrayList<WebRadioChannel> getChannelsFromString(String txt)
   {
     ArrayList<WebRadioChannel> arrayAdapter = new ArrayList<WebRadioChannel>();
     String lastName = null;
-    try(BufferedReader br = new BufferedReader(new StringReader(txt)))
+    StringReader sr = null;
+    try
     {
+      sr = new StringReader(txt);
+      BufferedReader br = new BufferedReader(sr);
       while (br.ready())
       {
         String s = br.readLine();
@@ -226,7 +227,6 @@ public class ChannelList
         }
         else if ((hasUri || hasUriCom) && lastName!=null)
         {
-          LoggingSystem.info(WebRadio.class, "Appending channel: ", lastName);
           String newUri = s.substring(URI_KEY.length());
           if (hasUriCom) { newUri = s.substring(URI_KEY_COM.length()); }
           WebRadioChannel curChannel = new WebRadioChannel(lastName, newUri);
@@ -234,15 +234,15 @@ public class ChannelList
           arrayAdapter.add(curChannel);
           lastName = null;
         }
-        else
-        {
-          LoggingSystem.info(ChannelList.class, "Unknown Line: " + s);
-        }
       }
     }
-    catch (IOException e)
+    catch (IOException e) { }
+    finally
     {
-      LoggingSystem.severe(ChannelList.class, e, "Get channels from String");
+      if (sr != null)
+      {
+        try { sr.close(); } catch (Exception e) {}
+      }
     }
     return arrayAdapter;
   }
@@ -263,27 +263,24 @@ public class ChannelList
   
   private static void doWriteChannels(Activity activity, String toWrite, String channels_filename)
   {
-    LoggingSystem.info(ChannelList.class, "Write custom channels");
-    try (FileOutputStream os = activity.openFileOutput(channels_filename,Context.MODE_PRIVATE))
+    FileOutputStream os = null;
+    try
     {
+      os = activity.openFileOutput(channels_filename,Context.MODE_PRIVATE);
       os.write(toWrite.getBytes());
       os.flush();
-      os.close();
     }
     catch (IOException e)
     {
-      LoggingSystem.severe(ChannelList.class, e, "Writing channels");
-      Toast.makeText(activity.getApplicationContext(), "Error writing channels!", Toast.LENGTH_LONG).show();
+      Toast.makeText(activity.getApplicationContext(), R.string.error_write_channels, Toast.LENGTH_LONG).show();
+    }
+    finally
+    {
+      if (os != null)
+      {
+        try { os.close(); } catch (Exception e) {}
+      }
     }
   }
 
-  public int countSelectedCustom()
-  {
-    int c = 0;
-    for (WebRadioChannel curChannel : channels_custom)
-    {
-      if (curChannel.isSelected()) { c++; }
-    }
-    return c;
-  }
 }

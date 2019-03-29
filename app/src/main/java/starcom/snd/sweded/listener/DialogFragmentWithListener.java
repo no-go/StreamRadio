@@ -1,4 +1,4 @@
-package starcom.snd.geschwedet.listener;
+package starcom.snd.sweded.listener;
 
 import android.app.DialogFragment;
 import android.content.DialogInterface;
@@ -13,7 +13,6 @@ public class DialogFragmentWithListener extends DialogFragment
   {
     CallbackListener last = this.l;
     this.l = l;
-starcom.debug.LoggingSystem.info(this.getClass(), "paul CallbackListener from Null=" + (last==null) + " to Null=" + (l==null));
     return last;
   }
   
@@ -21,7 +20,6 @@ starcom.debug.LoggingSystem.info(this.getClass(), "paul CallbackListener from Nu
   public void onDismiss(DialogInterface di)
   {
     super.onDismiss(di);
-    starcom.debug.LoggingSystem.info(this.getClass(), "paul CallbackListener onDismiss() Null:" + (l==null));
     if (l != null) { l.onCallback(); }
   }
 }
