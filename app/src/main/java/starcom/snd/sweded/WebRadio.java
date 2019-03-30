@@ -8,12 +8,15 @@ import starcom.snd.sweded.dialog.SettingsDialog;
 import starcom.snd.sweded.listener.CallStateListener;
 import starcom.snd.sweded.listener.CallbackListener;
 import starcom.snd.sweded.listener.StateListener;
+import starcom.snd.sweded.visualizer.BarVisualizer;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.telephony.PhoneStateListener;
@@ -30,7 +33,6 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
 import android.os.Bundle;
 import android.widget.Toast;
-import android.media.audiofx.Visualizer;
 
 import java.util.ArrayList;
 
@@ -48,6 +50,8 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
   private SharedPreferences mPreferences;
   private Menu optionsmenu;
   ProgressBar progressBar;
+  BarVisualizer barVisualizer;
+  int audioSession = -1;
   
   /** Called when the activity is first created. */
   @Override
@@ -76,6 +80,9 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
     label = (TextView) findViewById(R.id.mainText);
     choice = (Spinner) findViewById(R.id.mainSpinner);
     progressBar = (ProgressBar) findViewById(R.id.progressBar);
+    barVisualizer = findViewById(R.id.visualizer);
+    barVisualizer.setColor(ContextCompat.getColor(this, R.color.colorAccent));
+    barVisualizer.setDensity(24);
 
     SimpleArrayAdapter arrayAdapter = new SimpleArrayAdapter(this.getApplicationContext());
     choice.setAdapter(arrayAdapter);
@@ -172,6 +179,10 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
       progressBar.setIndeterminate(false);
       progressBar.setVisibility(View.INVISIBLE);
       label.setText(String.format(getString(R.string.playing), lastPlayChannel.getName()));
+      if (audioSession == -1) {
+        audioSession = streamPlayer.getMediaPlayer().getAudioSessionId();
+        barVisualizer.setPlayer(audioSession);
+      }
     }
     else if (state == State.Stopped)
     {

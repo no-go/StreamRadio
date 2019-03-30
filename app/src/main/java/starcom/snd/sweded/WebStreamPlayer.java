@@ -64,7 +64,7 @@ public class WebStreamPlayer implements OnBufferingUpdateListener, OnCompletionL
     }
   }
   
-  private MediaPlayer getMediaPlayer()
+  public MediaPlayer getMediaPlayer()
   {
     if (mediaPlayer==null)
     {
