@@ -52,9 +52,11 @@
         android:text="" />
 
     <starcom.snd.sweded.visualizer.BarVisualizer
+        android:layout_gravity="center"
         android:id="@+id/visualizer"
-        android:layout_width="match_parent"
-        android:layout_height="250dp" />
+        android:background="@mipmap/back"
+        android:layout_width="343dp"
+        android:layout_height="400dp" />
 
 
 </LinearLayout>

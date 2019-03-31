@@ -12,6 +12,7 @@ import starcom.snd.sweded.visualizer.BarVisualizer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -71,9 +72,6 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
     }
     setContentView(R.layout.activity_main);
     ChannelList.init(this);
-
-    getSupportActionBar().setDisplayShowHomeEnabled(true);
-    getSupportActionBar().setIcon(R.mipmap.logo);
     
     playButton = (Button) findViewById(R.id.mainPlay);
     playButton.setOnClickListener(this);
@@ -81,8 +79,6 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
     choice = (Spinner) findViewById(R.id.mainSpinner);
     progressBar = (ProgressBar) findViewById(R.id.progressBar);
     barVisualizer = findViewById(R.id.visualizer);
-    barVisualizer.setColor(ContextCompat.getColor(this, R.color.colorAccent));
-    barVisualizer.setDensity(24);
 
     SimpleArrayAdapter arrayAdapter = new SimpleArrayAdapter(this.getApplicationContext());
     choice.setAdapter(arrayAdapter);

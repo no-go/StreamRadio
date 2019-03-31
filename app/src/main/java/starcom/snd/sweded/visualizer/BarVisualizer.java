@@ -17,9 +17,12 @@ package starcom.snd.sweded.visualizer;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import starcom.snd.sweded.BaseVisualizer;
+import starcom.snd.sweded.R;
 
+import android.graphics.Path;
 import android.util.AttributeSet;
 
 /**
@@ -30,9 +33,9 @@ import android.util.AttributeSet;
  */
 
 public class BarVisualizer extends BaseVisualizer {
-
-    private float density = 50;
-    private int gap;
+    private float radiusMultiplier = 0.8f;
+    private Paint paint2;
+    private Paint paint3;
 
     public BarVisualizer(Context context) {
         super(context);
@@ -48,42 +51,66 @@ public class BarVisualizer extends BaseVisualizer {
 
     @Override
     protected void init() {
-        this.density = 50;
-        this.gap = 4;
-        paint.setStyle(Paint.Style.FILL);
-    }
-
-    /**
-     * Sets the density to the Bar visualizer i.e the number of bars
-     * to be displayed. Density can vary from 10 to 256.
-     * by default the value is set to 50.
-     *
-     * @param density density of the bar visualizer
-     */
-    public void setDensity(float density) {
-        this.density = density;
-        if (density > 256) {
-            this.density = 256;
-        } else if (density < 10) {
-            this.density = 10;
-        }
+        paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.BLACK);
+        paint2 = new Paint();
+        paint2.setStyle(Paint.Style.FILL);
+        paint2.setColor(Color.RED);
+        paint3 = new Paint();
+        paint3.setStyle(Paint.Style.FILL);
+        paint3.setColor(getResources().getColor(R.color.colorAccent2));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         if (bytes != null) {
-            float barWidth = getWidth() / density;
-            float div = bytes.length / density;
-            paint.setStrokeWidth(barWidth - gap);
+            Path path = new Path();
+            Path path2 = new Path();
+            paint.setStrokeWidth(7.0f);
 
-            for (int i = 0; i < density; i++) {
-                int bytePosition = (int) Math.ceil(i * div);
-                int top = getHeight() +
-                        ((byte) (Math.abs(bytes[bytePosition]) + 128)) * getHeight() / 128;
-                float barX = (i * barWidth) + (barWidth / 2);
-                canvas.drawLine(barX, getHeight(), barX, top, paint);
+            double angle = 4;
+            float fs1,fs2;
+            float f1,f2;
+            fs1 = (float) (getWidth() / 2
+                    + Math.abs(bytes[0])
+                    * radiusMultiplier
+                    * Math.cos(Math.toRadians(0)));
+            fs2 = (float) (getWidth() / 2
+                    + Math.abs(bytes[0])
+                    * radiusMultiplier/1.8f
+                    * Math.sin(Math.toRadians(0)));
+            path.moveTo(fs1, fs2);
+            path2.moveTo(fs1, fs2);
+
+            for (int i = 4; i < 360; i+=4, angle+=4) {
+                f1 = (float) (getWidth() / 2
+                        + Math.abs(bytes[i])
+                        * radiusMultiplier
+                        * Math.cos(Math.toRadians(angle)));
+                f2 = (float) (getWidth() / 2
+                        + Math.abs(bytes[i])
+                        * radiusMultiplier/1.8f
+                        * Math.sin(Math.toRadians(angle)));
+                path.lineTo(f1, f2);
+                if (i<120) path2.lineTo(f1, f2);
             }
-            super.onDraw(canvas);
+            path.lineTo(fs1, fs2);
+            path2.quadTo(getWidth()/2,getWidth()/2, fs1, fs2);
+            canvas.save();
+            canvas.rotate(-15f,getWidth()/2,getWidth()/2);
+            canvas.drawPath(path, paint2);
+            canvas.drawPath(path, paint);
+            canvas.drawPath(path2, paint3);
+            canvas.drawPath(path2, paint);
+            canvas.restore();
+            if (bytes[1] > 64) {
+                paint.setStrokeWidth(15.0f);
+                canvas.drawCircle(0.41f*getWidth(),0.25f*getWidth(), 12, paint);
+                canvas.drawCircle(0.53f*getWidth(),0.22f*getWidth(), 12, paint);
+            }
+
         }
+        super.onDraw(canvas);
     }
 }
