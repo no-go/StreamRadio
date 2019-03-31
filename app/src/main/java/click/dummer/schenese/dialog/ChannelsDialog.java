@@ -30,7 +30,7 @@ public class ChannelsDialog extends DialogFragmentWithListener implements OnClic
     View view = inflater.inflate(R.layout.fragment_channels, container);
     Button okButton = (Button) view.findViewById(R.id.okChannelsButton);
     okButton.setOnClickListener(this);
-    getDialog().setTitle(R.string.settings);
+    getDialog().setTitle(R.string.edit);
     
     ArrayList<WebRadioChannel> channelList = ChannelList.getInstance().listViewCreateChannelList();
     listView = (ListView) view.findViewById(R.id.channelsList);

@@ -4,14 +4,6 @@
     android:orientation="horizontal"
     android:padding="6dip" >
 
-    <ImageView
-        android:id="@+id/iconSimple"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:gravity="center"
-        android:layout_marginRight="10dp"
-        android:src="@mipmap/logo" />
-
     <TextView
         android:id="@+id/channelTxtSimple"
         android:layout_width="wrap_content"

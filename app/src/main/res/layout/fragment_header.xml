@@ -13,7 +13,7 @@
         android:textSize="22sp"
         android:textColor="#FFFFFF"
         android:padding="10dp"
-        android:text="@string/settings"
+        android:text="@string/edit_list"
         android:background="@color/colorAccent" />
 
 </LinearLayout>

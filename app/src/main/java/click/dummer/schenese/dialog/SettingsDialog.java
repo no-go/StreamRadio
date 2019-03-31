@@ -23,7 +23,6 @@ public class SettingsDialog extends DialogFragmentWithListener implements OnClic
   public enum SettingsType{Main, CustomChannel, DefaultChannel, EditChannel};
   private static SettingsType settingsType = SettingsType.Main;
   private EditText channelUrl, channelName;
-  private Spinner channelIcon;
 
   // Empty constructor required for DialogFragment
   public SettingsDialog() {}
@@ -40,15 +39,7 @@ public class SettingsDialog extends DialogFragmentWithListener implements OnClic
       saveButton.setOnClickListener(this);
       this.channelName = (EditText) view.findViewById(R.id.channelName);
       this.channelUrl = (EditText) view.findViewById(R.id.channelUrl);
-      this.channelIcon = (Spinner) view.findViewById(R.id.channelIconSpinner);
       SimpleArrayAdapter channelAdapter = new SimpleArrayAdapter(inflater.getContext());
-      channelIcon.setAdapter(channelAdapter);
-      channelAdapter.add(new WebRadioChannel("[e] Electro",""));
-      channelAdapter.add(new WebRadioChannel("[r] Rock",""));
-      channelAdapter.add(new WebRadioChannel("[o] Oldies",""));
-      channelAdapter.add(new WebRadioChannel("[c] Classic",""));
-      channelAdapter.add(new WebRadioChannel("[j] Jazz",""));
-      channelAdapter.add(new WebRadioChannel("[u] Undef",""));
       
       WebRadioChannel selChannel = ChannelList.getInstance().getSelectedChannel();
       if (selChannel != null)
@@ -59,7 +50,7 @@ public class SettingsDialog extends DialogFragmentWithListener implements OnClic
     }
     else
     {
-      getDialog().setTitle(R.string.settings);
+      getDialog().setTitle(R.string.edit);
       view = inflater.inflate(R.layout.fragment_settings, container);
       Button addButton = (Button) view.findViewById(R.id.addChannel);
       if (settingsType==SettingsType.Main) { ((ViewManager)view).removeView(addButton); }
@@ -105,9 +96,7 @@ public class SettingsDialog extends DialogFragmentWithListener implements OnClic
       if (inputName.length() < 3) {
         inputName += "--------------";
       }
-      String newName = channelIcon.getSelectedItem().toString().substring(0, 4);
-      newName = newName + inputName;
-      WebRadioChannel newChannel = new WebRadioChannel(newName, channelUrl.getText().toString().trim());
+      WebRadioChannel newChannel = new WebRadioChannel(inputName, channelUrl.getText().toString().trim());
       WebRadioChannel selChannel = ChannelList.getInstance().getSelectedChannel();
       if (selChannel == null)
       {

@@ -19,8 +19,7 @@
             android:id="@+id/mainSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="start"
-            android:background="#33666666" />
+            android:gravity="start" />
 
         <Button
             android:id="@+id/mainPlay"
@@ -41,7 +40,7 @@
         android:indeterminateOnly="false"
         android:visibility="invisible" />
 
-    <click.dummer.schenese.visualizer.BarVisualizer
+    <click.dummer.schenese.visualizer.MaulmiauVisualizer
         android:layout_gravity="center"
         android:id="@+id/visualizer"
         android:background="@mipmap/back"

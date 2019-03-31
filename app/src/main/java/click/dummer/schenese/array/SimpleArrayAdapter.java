@@ -40,8 +40,6 @@ public class SimpleArrayAdapter extends BaseAdapter
           rowView = inflater.inflate(R.layout.fragment_channels_entrysimple, parent, false);
         }
         TextView channelTxt = (TextView) rowView.findViewById(R.id.channelTxtSimple);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.iconSimple);
-        imageView.setImageResource(curChannel.getGenreIcon());
         channelTxt.setText(curChannel.getName());
         if (mPreferences.getBoolean("is_dark", false))
         {

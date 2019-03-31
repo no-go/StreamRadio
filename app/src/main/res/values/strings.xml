@@ -4,14 +4,13 @@
     <string name="predefined_channels">Predef</string>
     <string name="custom_channels">Mine</string>
     <string name="channels">Channels</string>
-    <string name="settings">conf</string>
     <string name="ok">Okay</string>
     <string name="play">run</string>
     <string name="stop">snooze</string>
     <string name="save">saven</string>
     <string name="channel_name">name</string>
     <string name="edit_list">edit list</string>
-    <string name="edit_channel">edit</string>
+    <string name="edit">edit</string>
     <string name="remove_channel">- channel</string>
     <string name="add_channel">+ channel</string>
     <string name="dark">Dark !!11elf</string>

@@ -12,21 +12,9 @@ public class WebRadioChannel implements Comparable<WebRadioChannel>
     this.radioUrl = radioUrl;
   }
 
-  public int getGenreIcon()
-  {
-    if (radioName.startsWith("[e] ")) { return R.drawable.genre_electro; }
-    if (radioName.startsWith("[r] ")) { return R.drawable.genre_rock; }
-    if (radioName.startsWith("[o] ")) { return R.drawable.genre_oldies; }
-    if (radioName.startsWith("[c] ")) { return R.drawable.genre_classic; }
-    if (radioName.startsWith("[j] ")) { return R.drawable.genre_jazz; }
-    if (radioName.startsWith("[u] ")) { return R.drawable.genre_undefined; }
-    return R.drawable.genre_undefined;
-  }
-
   public String getName()
   {
-    if (getGenreIcon()==R.drawable.genre_undefined && !radioName.startsWith("[u] ")) { return radioName; }
-    return radioName.substring(4);
+    return radioName;
   }
   
   public String getFullName()

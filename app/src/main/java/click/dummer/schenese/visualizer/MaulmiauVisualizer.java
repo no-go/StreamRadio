@@ -32,20 +32,20 @@ import android.util.AttributeSet;
  * Created by gautam chibde on 28/10/17.
  */
 
-public class BarVisualizer extends BaseVisualizer {
+public class MaulmiauVisualizer extends BaseVisualizer {
     private float radiusMultiplier = 0.8f;
     private Paint paint2;
     private Paint paint3;
 
-    public BarVisualizer(Context context) {
+    public MaulmiauVisualizer(Context context) {
         super(context);
     }
 
-    public BarVisualizer(Context context, AttributeSet attrs) {
+    public MaulmiauVisualizer(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public BarVisualizer(Context context, AttributeSet attrs, int defStyleAttr) {
+    public MaulmiauVisualizer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
@@ -67,7 +67,7 @@ public class BarVisualizer extends BaseVisualizer {
         if (bytes != null) {
             Path path = new Path();
             Path path2 = new Path();
-            paint.setStrokeWidth(7.0f);
+            paint.setStrokeWidth(5.0f);
 
             double angle = 4;
             float fs1,fs2;

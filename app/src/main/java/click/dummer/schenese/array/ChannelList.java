@@ -105,9 +105,9 @@ public class ChannelList
 
   void checkVersion(Activity activity)
   {
-    String curAppVersion = "sweded";
+    String curAppVersion = "sweded2";
     SharedPreferences pref = activity.getPreferences(Context.MODE_PRIVATE);
-    String storedAppVersion = pref.getString("starcom.snd.versiondate", "");
+    String storedAppVersion = pref.getString("click.dummer.schenese", "");
     boolean isNewVersion = !storedAppVersion.equals(curAppVersion);
     ArrayList<WebRadioChannel> channels_raw;
     if (isNewVersion || channels_default.size()==0)
@@ -118,7 +118,7 @@ public class ChannelList
         manipulateCustomAndDefault(channels_raw);
         writeChannels(activity, CHANNELS_FILENAME);
         SharedPreferences.Editor sharedEditor= pref.edit();
-        sharedEditor.putString("starcom.snd.versiondate", curAppVersion);
+        sharedEditor.putString("click.dummer.schenese", curAppVersion);
         sharedEditor.commit();
       }
       channels_default = channels_raw;

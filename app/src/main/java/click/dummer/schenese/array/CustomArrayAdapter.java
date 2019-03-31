@@ -32,8 +32,7 @@ public class CustomArrayAdapter extends ArrayAdapter<WebRadioChannel> implements
     @Override
     public View getView(int pos, View convertView, ViewGroup parent)
     {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         WebRadioChannel curChannel = getItem(pos);
         if (curChannel.getUrl().equals(SEP_LINE))
         {
@@ -43,19 +42,21 @@ public class CustomArrayAdapter extends ArrayAdapter<WebRadioChannel> implements
           return rowView;
         }
         View rowView = convertView;
-        if (rowView == null || rowView.findViewById(R.id.icon) == null)
+        if (rowView == null)
         {
           rowView = inflater.inflate(R.layout.fragment_channels_entry, parent, false);
         }
         TextView channelTxt = (TextView) rowView.findViewById(R.id.channelTxt);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
         CheckBox checkbox = (CheckBox) rowView.findViewById(R.id.checkbox);
-        channelTxt.setOnLongClickListener(new CustomTouchListener(pos, context, this));
-        imageView.setImageResource(curChannel.getGenreIcon());
-        channelTxt.setText(curChannel.getName());
-        checkbox.setOnCheckedChangeListener(null);
-        checkbox.setChecked(curChannel.isSelected());
-        checkbox.setOnCheckedChangeListener(createCheckboxListener(pos));
+        try {
+            channelTxt.setOnLongClickListener(new CustomTouchListener(pos, context, this));
+            channelTxt.setText(curChannel.getName());
+            checkbox.setOnCheckedChangeListener(null);
+            checkbox.setChecked(curChannel.isSelected());
+            checkbox.setOnCheckedChangeListener(createCheckboxListener(pos));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return rowView;
     }
 

@@ -8,14 +8,21 @@ import click.dummer.schenese.dialog.SettingsDialog;
 import click.dummer.schenese.listener.CallStateListener;
 import click.dummer.schenese.listener.CallbackListener;
 import click.dummer.schenese.listener.StateListener;
-import click.dummer.schenese.visualizer.BarVisualizer;
+import click.dummer.schenese.visualizer.MaulmiauVisualizer;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -34,9 +41,13 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
-public class WebRadio extends AppCompatActivity implements OnClickListener, StateListener, CallbackListener
-{
+public class WebRadio extends AppCompatActivity implements OnClickListener, StateListener, CallbackListener {
+
+  public static final String NOTIFICATION_CHANNEL_ID_LOCATION = "starcom_snd_channel_location";
+  private int NOTIFICATION = R.string.app_name;
+
   static WebRadioChannel lastPlayChannel;
   static WebRadioChannel lastSelectedChannel;
   Button playButton;
@@ -49,7 +60,7 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
   private SharedPreferences mPreferences;
   private Menu optionsmenu;
   ProgressBar progressBar;
-  BarVisualizer barVisualizer;
+  MaulmiauVisualizer maulmiauVisualizer;
   int audioSession = -1;
   
   /** Called when the activity is first created. */
@@ -75,7 +86,7 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
     playButton.setOnClickListener(this);
     choice = (Spinner) findViewById(R.id.mainSpinner);
     progressBar = (ProgressBar) findViewById(R.id.progressBar);
-    barVisualizer = findViewById(R.id.visualizer);
+    maulmiauVisualizer = findViewById(R.id.visualizer);
 
     SimpleArrayAdapter arrayAdapter = new SimpleArrayAdapter(this.getApplicationContext());
     choice.setAdapter(arrayAdapter);
@@ -185,9 +196,10 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
       progressBar.setIndeterminate(false);
       progressBar.setVisibility(View.INVISIBLE);
       if(ab != null) ab.setTitle(" 100% " + lastPlayChannel.getName());
+      showNotification();
       if (audioSession == -1) {
         audioSession = streamPlayer.getMediaPlayer().getAudioSessionId();
-        barVisualizer.setPlayer(audioSession);
+        maulmiauVisualizer.setPlayer(audioSession);
       }
     }
     else if (state == State.Stopped)
@@ -197,6 +209,7 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
       progressBar.setIndeterminate(false);
       progressBar.setVisibility(View.INVISIBLE);
       if(ab != null) ab.setTitle(" " + getString(R.string.app_name));
+      hideNotification();
     }
     else if (state == State.Preparing) {
       progressBar.setIndeterminate(true);
@@ -226,6 +239,48 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
     }
   }
 
+  private void showNotification()
+  {
+    PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, WebRadio.class), PendingIntent.FLAG_UPDATE_CURRENT);
+    NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+    if (Build.VERSION.SDK_INT >= 26) {
+      NotificationManager mngr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+      if (mngr.getNotificationChannel(NOTIFICATION_CHANNEL_ID_LOCATION) == null) {
+        NotificationChannel channel = new NotificationChannel(
+                NOTIFICATION_CHANNEL_ID_LOCATION,
+                getString(R.string.app_name),
+                NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription(getString(R.string.app_name));
+        channel.enableLights(false);
+        channel.enableVibration(false);
+        mngr.createNotificationChannel(channel);
+      }
+    }
+
+    Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
+    NotificationCompat.BigTextStyle bigStyle = new NotificationCompat.BigTextStyle();
+    bigStyle.bigText(lastPlayChannel.getName());
+
+    Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID_LOCATION)
+            .setSmallIcon(R.mipmap.logo)  // the status icon
+            .setLargeIcon(largeIcon)
+            .setStyle(bigStyle)
+            .setTicker(lastPlayChannel.getName())  // the status text
+            .setWhen(Calendar.getInstance().getTimeInMillis())  // the time stamp
+            .setContentTitle(getString(R.string.app_name))  // the label of the entry
+            .setContentText(lastPlayChannel.getName())  // the contents of the entry
+            .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
+            .setOngoing(true)                 // remove/only cancel by stop button
+            .build();
+    mNM.notify(NOTIFICATION, notification);
+  }
+
+  void hideNotification() {
+    NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+    mNM.cancel(NOTIFICATION);
+  }
+
   @Override
   public boolean onCreateOptionsMenu(Menu menu)
   {
@@ -250,13 +305,13 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
           item.setChecked(false);
           mPreferences.edit().putBoolean("is_dark", false).apply();
           getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-          barVisualizer.release();
+          maulmiauVisualizer.release();
           recreate();
         } else {
           item.setChecked(true);
           mPreferences.edit().putBoolean("is_dark", true).apply();
           getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-          barVisualizer.release();
+          maulmiauVisualizer.release();
           recreate();
         }
         return true;
