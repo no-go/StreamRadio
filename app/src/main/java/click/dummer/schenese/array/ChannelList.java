@@ -1,6 +1,6 @@
-package starcom.snd.sweded.array;
+package click.dummer.schenese.array;
 
-import starcom.snd.sweded.R;
+import click.dummer.schenese.R;
 import java.util.ArrayList;
 import java.io.FileInputStream;
 import java.io.BufferedReader;
@@ -12,8 +12,8 @@ import android.app.Activity;
 import android.widget.Toast;
 import android.content.Context;
 import android.content.SharedPreferences;
-import starcom.snd.sweded.WebRadioChannel;
-import starcom.snd.sweded.util.Resources;
+import click.dummer.schenese.WebRadioChannel;
+import click.dummer.schenese.util.Resources;
 
 public class ChannelList
 {

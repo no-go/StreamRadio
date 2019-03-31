@@ -1,4 +1,4 @@
-package starcom.snd.sweded.util;
+package click.dummer.schenese.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;

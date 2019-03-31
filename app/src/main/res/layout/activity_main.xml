@@ -41,17 +41,7 @@
         android:indeterminateOnly="false"
         android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/mainText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:gravity="center"
-        android:text="" />
-
-    <starcom.snd.sweded.visualizer.BarVisualizer
+    <click.dummer.schenese.visualizer.BarVisualizer
         android:layout_gravity="center"
         android:id="@+id/visualizer"
         android:background="@mipmap/back"

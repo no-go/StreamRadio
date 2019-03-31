@@ -1,9 +1,8 @@
-package starcom.snd.sweded;
+package click.dummer.schenese;
 
 import java.io.IOException;
 
-import starcom.snd.sweded.R;
-import starcom.snd.sweded.listener.StateListener;
+import click.dummer.schenese.listener.StateListener;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnBufferingUpdateListener;
@@ -171,7 +170,7 @@ public class WebStreamPlayer implements OnBufferingUpdateListener, OnCompletionL
   @Override
   public void onBufferingUpdate(MediaPlayer mp, int percent)
   {
-    if (stateListener!=null) { stateListener.stateLoading(50); }
+    if (stateListener!=null) { stateListener.stateLoading(percent); }
   }
 
 }

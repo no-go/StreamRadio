@@ -1,7 +1,7 @@
-package starcom.snd.sweded.listener;
+package click.dummer.schenese.listener;
 
-import starcom.snd.sweded.WebStreamPlayer;
-import starcom.snd.sweded.WebStreamPlayer.State;
+import click.dummer.schenese.WebStreamPlayer;
+import click.dummer.schenese.WebStreamPlayer.State;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 

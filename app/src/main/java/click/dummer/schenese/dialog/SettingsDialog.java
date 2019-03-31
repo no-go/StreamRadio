@@ -1,11 +1,11 @@
-package starcom.snd.sweded.dialog;
+package click.dummer.schenese.dialog;
 
-import starcom.snd.sweded.R;
-import starcom.snd.sweded.WebRadioChannel;
-import starcom.snd.sweded.array.ChannelList;
-import starcom.snd.sweded.array.SimpleArrayAdapter;
-import starcom.snd.sweded.listener.CallbackListener;
-import starcom.snd.sweded.listener.DialogFragmentWithListener;
+import click.dummer.schenese.R;
+import click.dummer.schenese.WebRadioChannel;
+import click.dummer.schenese.array.ChannelList;
+import click.dummer.schenese.array.SimpleArrayAdapter;
+import click.dummer.schenese.listener.CallbackListener;
+import click.dummer.schenese.listener.DialogFragmentWithListener;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -101,9 +101,13 @@ public class SettingsDialog extends DialogFragmentWithListener implements OnClic
     }
     else if (v.getId()==R.id.saveButton)
     {
+      String inputName = channelName.getText().toString().trim();
+      if (inputName.length() < 3) {
+        inputName += "--------------";
+      }
       String newName = channelIcon.getSelectedItem().toString().substring(0, 4);
-      newName = newName + channelName.getText().toString();
-      WebRadioChannel newChannel = new WebRadioChannel(newName, channelUrl.getText().toString());
+      newName = newName + inputName;
+      WebRadioChannel newChannel = new WebRadioChannel(newName, channelUrl.getText().toString().trim());
       WebRadioChannel selChannel = ChannelList.getInstance().getSelectedChannel();
       if (selChannel == null)
       {

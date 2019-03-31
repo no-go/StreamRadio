@@ -13,14 +13,14 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package starcom.snd.sweded.visualizer;
+package click.dummer.schenese.visualizer;
 
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import starcom.snd.sweded.BaseVisualizer;
-import starcom.snd.sweded.R;
+import click.dummer.schenese.BaseVisualizer;
+import click.dummer.schenese.R;
 
 import android.graphics.Path;
 import android.util.AttributeSet;

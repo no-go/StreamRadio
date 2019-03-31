@@ -1,4 +1,4 @@
-package starcom.snd.sweded;
+package click.dummer.schenese;
 
 public class WebRadioChannel implements Comparable<WebRadioChannel>
 {

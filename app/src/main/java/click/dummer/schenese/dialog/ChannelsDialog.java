@@ -1,8 +1,8 @@
-package starcom.snd.sweded.dialog;
+package click.dummer.schenese.dialog;
 
-import starcom.snd.sweded.R;
-import starcom.snd.sweded.WebRadioChannel;
-import starcom.snd.sweded.array.ChannelList;
+import click.dummer.schenese.R;
+import click.dummer.schenese.WebRadioChannel;
+import click.dummer.schenese.array.ChannelList;
 
 import java.util.ArrayList;
 
@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import starcom.snd.sweded.array.CustomArrayAdapter;
-import starcom.snd.sweded.listener.DialogFragmentWithListener;
+import click.dummer.schenese.array.CustomArrayAdapter;
+import click.dummer.schenese.listener.DialogFragmentWithListener;
 
 public class ChannelsDialog extends DialogFragmentWithListener implements OnClickListener
 {

@@ -11,7 +11,12 @@
       android:layout_alignParentBottom="true"
       android:text="@string/ok" >
   </Button>
-    
+
+  <TextView
+      android:text="@string/howto"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
+
   <ListView
       android:id="@+id/channelsList"
       android:layout_width="fill_parent"

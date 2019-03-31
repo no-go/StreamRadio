@@ -1,4 +1,4 @@
-package starcom.snd.sweded.listener;
+package click.dummer.schenese.listener;
 
 import android.app.DialogFragment;
 import android.content.DialogInterface;

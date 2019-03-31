@@ -1,23 +1,22 @@
-package starcom.snd.sweded;
+package click.dummer.schenese;
 
-import starcom.snd.sweded.WebStreamPlayer.State;
-import starcom.snd.sweded.array.ChannelList;
-import starcom.snd.sweded.array.SimpleArrayAdapter;
-import starcom.snd.sweded.dialog.ChannelsDialog;
-import starcom.snd.sweded.dialog.SettingsDialog;
-import starcom.snd.sweded.listener.CallStateListener;
-import starcom.snd.sweded.listener.CallbackListener;
-import starcom.snd.sweded.listener.StateListener;
-import starcom.snd.sweded.visualizer.BarVisualizer;
+import click.dummer.schenese.WebStreamPlayer.State;
+import click.dummer.schenese.array.ChannelList;
+import click.dummer.schenese.array.SimpleArrayAdapter;
+import click.dummer.schenese.dialog.ChannelsDialog;
+import click.dummer.schenese.dialog.SettingsDialog;
+import click.dummer.schenese.listener.CallStateListener;
+import click.dummer.schenese.listener.CallbackListener;
+import click.dummer.schenese.listener.StateListener;
+import click.dummer.schenese.visualizer.BarVisualizer;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.telephony.PhoneStateListener;
@@ -28,7 +27,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Spinner;
@@ -41,12 +39,12 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
 {
   static WebRadioChannel lastPlayChannel;
   static WebRadioChannel lastSelectedChannel;
-  TextView label;
   Button playButton;
   boolean bPlayButton = false;
   Spinner choice;
   WebStreamPlayer streamPlayer;
   int progress = 100;
+  ActionBar ab;
 
   private SharedPreferences mPreferences;
   private Menu optionsmenu;
@@ -75,7 +73,6 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
     
     playButton = (Button) findViewById(R.id.mainPlay);
     playButton.setOnClickListener(this);
-    label = (TextView) findViewById(R.id.mainText);
     choice = (Spinner) findViewById(R.id.mainSpinner);
     progressBar = (ProgressBar) findViewById(R.id.progressBar);
     barVisualizer = findViewById(R.id.visualizer);
@@ -87,7 +84,17 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
     streamPlayer = WebStreamPlayer.getInstance();
     streamPlayer.setStateListener(this);
     stateChanged(streamPlayer.getState());
-    
+
+    ab = getSupportActionBar();
+    if(ab != null) {
+      ab.setDisplayShowHomeEnabled(true);
+      ab.setHomeButtonEnabled(true);
+      ab.setDisplayUseLogoEnabled(true);
+      ab.setLogo(R.mipmap.logo);
+      ab.setTitle(" " + getString(R.string.app_name));
+      ab.setElevation(0);
+    }
+
     TelephonyManager telephonyManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
     telephonyManager.listen(new CallStateListener(streamPlayer), PhoneStateListener.LISTEN_CALL_STATE);
   }
@@ -153,6 +160,9 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
       catch (Exception e)
       {
         Toast.makeText(getApplicationContext(), R.string.busy, Toast.LENGTH_SHORT).show();
+        streamPlayer.stop();
+        progressBar.setIndeterminate(false);
+        progressBar.setVisibility(View.INVISIBLE);
       }
     }
     else
@@ -174,7 +184,7 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
       bPlayButton = false;
       progressBar.setIndeterminate(false);
       progressBar.setVisibility(View.INVISIBLE);
-      label.setText(String.format(getString(R.string.playing), lastPlayChannel.getName()));
+      if(ab != null) ab.setTitle(" 100% " + lastPlayChannel.getName());
       if (audioSession == -1) {
         audioSession = streamPlayer.getMediaPlayer().getAudioSessionId();
         barVisualizer.setPlayer(audioSession);
@@ -186,12 +196,12 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
       bPlayButton = true;
       progressBar.setIndeterminate(false);
       progressBar.setVisibility(View.INVISIBLE);
-      label.setText(""); // empty
+      if(ab != null) ab.setTitle(" " + getString(R.string.app_name));
     }
     else if (state == State.Preparing) {
       progressBar.setIndeterminate(true);
       progressBar.setVisibility(View.VISIBLE);
-      label.setText(""); // empty
+      if(ab != null) ab.setTitle(" " + getString(R.string.app_name));
     }
     else if (state == State.Pause) {}
   }
@@ -201,11 +211,19 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
   {
     if (percent!=0 && percent<=progress) { return; }
     progress = percent;
-    Toast.makeText(
-            getApplicationContext(),
-            String.format(getString(R.string.loading), String.valueOf(percent)+"%"),
-            Toast.LENGTH_SHORT
-    ).show();
+    if(ab != null) {
+      if (percent > 98) {
+        ab.setTitle(" 100% " + lastPlayChannel.getName());
+      } else {
+        ab.setTitle(" " + String.valueOf(percent) + "%");
+      }
+    } else {
+      Toast.makeText(
+              getApplicationContext(),
+              String.format(getString(R.string.loading), String.valueOf(percent) + "%"),
+              Toast.LENGTH_SHORT
+      ).show();
+    }
   }
 
   @Override
@@ -232,11 +250,13 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
           item.setChecked(false);
           mPreferences.edit().putBoolean("is_dark", false).apply();
           getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+          barVisualizer.release();
           recreate();
         } else {
           item.setChecked(true);
           mPreferences.edit().putBoolean("is_dark", true).apply();
           getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+          barVisualizer.release();
           recreate();
         }
         return true;

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        applicationId "starcom.snd.sweded"
+        applicationId "click.dummer.schenese"
         minSdkVersion 16
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 22

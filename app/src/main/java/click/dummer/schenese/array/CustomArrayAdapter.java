@@ -1,6 +1,6 @@
-package starcom.snd.sweded.array;
+package click.dummer.schenese.array;
 
-import starcom.snd.sweded.R;
+import click.dummer.schenese.R;
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,9 +15,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 
 import java.util.ArrayList;
 
-import starcom.snd.sweded.WebRadioChannel;
-import starcom.snd.sweded.listener.CallbackListener;
-import starcom.snd.sweded.dialog.SettingsDialog;
+import click.dummer.schenese.WebRadioChannel;
+import click.dummer.schenese.listener.CallbackListener;
+import click.dummer.schenese.dialog.SettingsDialog;
 
 public class CustomArrayAdapter extends ArrayAdapter<WebRadioChannel> implements CallbackListener
 {

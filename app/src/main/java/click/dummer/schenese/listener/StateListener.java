@@ -1,6 +1,6 @@
-package starcom.snd.sweded.listener;
+package click.dummer.schenese.listener;
 
-import starcom.snd.sweded.WebStreamPlayer.State;
+import click.dummer.schenese.WebStreamPlayer.State;
 
 public interface StateListener
 {

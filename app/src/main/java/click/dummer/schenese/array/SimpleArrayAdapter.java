@@ -1,9 +1,9 @@
-package starcom.snd.sweded.array;
+package click.dummer.schenese.array;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import starcom.snd.sweded.R;
+import click.dummer.schenese.R;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -14,7 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import starcom.snd.sweded.WebRadioChannel;
+import click.dummer.schenese.WebRadioChannel;
 
 public class SimpleArrayAdapter extends BaseAdapter
 {
