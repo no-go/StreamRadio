@@ -33,9 +33,11 @@ import android.util.AttributeSet;
  */
 
 public class MaulmiauVisualizer extends BaseVisualizer {
-    private float radiusMultiplier = 0.8f;
+    private float radiusMultiplier = 0.9f;
     private Paint paint2;
     private Paint paint3;
+    private Paint paint4;
+    private Paint paint5;
 
     public MaulmiauVisualizer(Context context) {
         super(context);
@@ -60,6 +62,12 @@ public class MaulmiauVisualizer extends BaseVisualizer {
         paint3 = new Paint();
         paint3.setStyle(Paint.Style.FILL);
         paint3.setColor(getResources().getColor(R.color.colorAccent2));
+        paint4 = new Paint();
+        paint4.setStyle(Paint.Style.FILL);
+        paint4.setColor(getResources().getColor(R.color.colorPrimary));
+        paint5 = new Paint();
+        paint5.setStyle(Paint.Style.FILL);
+        paint5.setColor(Color.WHITE);
     }
 
     @Override
@@ -67,7 +75,8 @@ public class MaulmiauVisualizer extends BaseVisualizer {
         if (bytes != null) {
             Path path = new Path();
             Path path2 = new Path();
-            paint.setStrokeWidth(5.0f);
+            Path armpath = new Path();
+            paint.setStrokeWidth(7.0f);
 
             double angle = 4;
             float fs1,fs2;
@@ -105,11 +114,19 @@ public class MaulmiauVisualizer extends BaseVisualizer {
             canvas.drawPath(path2, paint);
             canvas.restore();
             if (bytes[1] > 64) {
-                paint.setStrokeWidth(15.0f);
-                canvas.drawCircle(0.41f*getWidth(),0.25f*getWidth(), 12, paint);
-                canvas.drawCircle(0.53f*getWidth(),0.22f*getWidth(), 12, paint);
+                paint.setStrokeWidth(17.0f);
+                canvas.drawCircle(0.41f*getWidth(),0.25f*getWidth(), 13, paint);
+                canvas.drawCircle(0.53f*getWidth(),0.22f*getWidth(), 13, paint);
             }
-
+            paint.setStrokeWidth(7.0f);
+            float rocky = (float) Math.abs(bytes[300]);
+            armpath.moveTo(0.24f*getWidth(), 0.74f*getWidth());
+            armpath.lineTo(0.56f*getWidth(),0.85f*getWidth() - rocky);
+            armpath.lineTo(0.40f*getWidth(), 0.9f*getWidth());
+            canvas.drawPath(armpath, paint4);
+            canvas.drawPath(armpath, paint);
+            canvas.drawCircle(0.56f*getWidth(),0.85f*getWidth() - rocky, 40, paint5);
+            canvas.drawCircle(0.56f*getWidth(),0.85f*getWidth() - rocky, 40, paint);
         }
         super.onDraw(canvas);
     }

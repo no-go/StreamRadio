@@ -7,7 +7,6 @@
         android:id="@+id/action_setting"
         android:orderInCategory="100"
         android:title="@string/edit"
-        android:visible="false"
         app:showAsAction="never" />
 
     <group android:checkableBehavior="all">

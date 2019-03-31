@@ -10,10 +10,12 @@ import click.dummer.schenese.listener.CallbackListener;
 import click.dummer.schenese.listener.StateListener;
 import click.dummer.schenese.visualizer.MaulmiauVisualizer;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -303,16 +305,28 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
         if (item.isChecked())
         {
           item.setChecked(false);
-          mPreferences.edit().putBoolean("is_dark", false).apply();
+          mPreferences.edit().putBoolean("is_dark", false).commit();
           getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-          maulmiauVisualizer.release();
-          recreate();
+          Intent mStartActivity = new Intent(this, WebRadio.class);
+          int mPendingIntentId = 123456;
+          PendingIntent mPendingIntent = PendingIntent.getActivity(this, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+          AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+          mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, mPendingIntent);
+          System.exit(0);
+          //maulmiauVisualizer.release();
+          //recreate();
         } else {
           item.setChecked(true);
-          mPreferences.edit().putBoolean("is_dark", true).apply();
+          mPreferences.edit().putBoolean("is_dark", true).commit();
           getDelegate().setLocalNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-          maulmiauVisualizer.release();
-          recreate();
+          Intent mStartActivity = new Intent(this, WebRadio.class);
+          int mPendingIntentId = 123456;
+          PendingIntent mPendingIntent = PendingIntent.getActivity(this, mPendingIntentId, mStartActivity, PendingIntent.FLAG_CANCEL_CURRENT);
+          AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+          mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 500, mPendingIntent);
+          System.exit(0);
+          //maulmiauVisualizer.release();
+          //recreate();
         }
         return true;
 
