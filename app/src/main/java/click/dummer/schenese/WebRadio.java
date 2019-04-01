@@ -20,6 +20,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioAttributes;
+import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
@@ -248,16 +250,18 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
 
     if (Build.VERSION.SDK_INT >= 26) {
       NotificationManager mngr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-      if (mngr.getNotificationChannel(NOTIFICATION_CHANNEL_ID_LOCATION) == null) {
-        NotificationChannel channel = new NotificationChannel(
-                NOTIFICATION_CHANNEL_ID_LOCATION,
-                getString(R.string.app_name),
-                NotificationManager.IMPORTANCE_DEFAULT);
-        channel.setDescription(getString(R.string.app_name));
-        channel.enableLights(false);
-        channel.enableVibration(false);
-        mngr.createNotificationChannel(channel);
+      if (mngr.getNotificationChannel(NOTIFICATION_CHANNEL_ID_LOCATION) != null) {
+        mngr.deleteNotificationChannel(NOTIFICATION_CHANNEL_ID_LOCATION);
       }
+      NotificationChannel channel = new NotificationChannel(
+              NOTIFICATION_CHANNEL_ID_LOCATION,
+              getString(R.string.app_name),
+              NotificationManager.IMPORTANCE_LOW // sound off in 8 and higher
+      );
+      channel.setDescription(getString(R.string.app_name));
+      channel.enableLights(false);
+      channel.enableVibration(false);
+      mngr.createNotificationChannel(channel);
     }
 
     Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
@@ -268,6 +272,7 @@ public class WebRadio extends AppCompatActivity implements OnClickListener, Stat
             .setSmallIcon(R.mipmap.logo)  // the status icon
             .setLargeIcon(largeIcon)
             .setStyle(bigStyle)
+            .setPriority(NotificationCompat.PRIORITY_LOW) // sound off in 7.1 and below
             .setTicker(lastPlayChannel.getName())  // the status text
             .setWhen(Calendar.getInstance().getTimeInMillis())  // the time stamp
             .setContentTitle(getString(R.string.app_name))  // the label of the entry

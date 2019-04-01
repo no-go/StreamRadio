@@ -105,7 +105,7 @@ public class ChannelList
 
   void checkVersion(Activity activity)
   {
-    String curAppVersion = "sweded2";
+    String curAppVersion = "sweded3";
     SharedPreferences pref = activity.getPreferences(Context.MODE_PRIVATE);
     String storedAppVersion = pref.getString("click.dummer.schenese", "");
     boolean isNewVersion = !storedAppVersion.equals(curAppVersion);
