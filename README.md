@@ -1,14 +1,10 @@
-# WebRadio
+# HaveRadiosion (a Web Radio Player)
 
-geschedet and buggy.
+It has a music visualizer in a comic figure format.
 
-![Screenshot](photo.png)
-
-# Credits
+Credits to
 
 - [Starcommander](https://github.com/Starcommander) for the original [WebRadio](https://github.com/Starcommander/StreamRadio).
-- [GautamChibde](https://github.com/GautamChibde) for awesome [Visualizers](https://github.com/GautamChibde/android-audio-visualizer).
+- [GautamChibde](https://github.com/GautamChibde) for awesome [BaseVisualizer.java](https://github.com/GautamChibde/android-audio-visualizer).
 
-# Download
-
-Debug [APK](starcom.snd.sweded.apk)
+![Screenshot](picture.png)

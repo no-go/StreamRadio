@@ -4,12 +4,12 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        applicationId "starcom.snd.sweded"
+        applicationId "click.dummer.have_radiosion"
         minSdkVersion 16
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 22
-        versionCode 21
-        versionName "2.1"
+        versionCode 23
+        versionName "2.3"
     }
 
     buildTypes {

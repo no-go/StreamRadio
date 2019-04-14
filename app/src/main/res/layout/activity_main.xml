@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:id="@+id/mainLayout"
     android:padding="15dp"
-    tools:context=".WebRadio">
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,14 +19,14 @@
             android:id="@+id/mainSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="start"
-            android:background="#33666666" />
+            android:gravity="start" />
 
         <Button
             android:id="@+id/mainPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:onClick="onClick"
             android:background="@color/colorAccent"
             android:text="@string/play" />
     </LinearLayout>
@@ -41,20 +41,12 @@
         android:indeterminateOnly="false"
         android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/mainText"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:gravity="center"
-        android:text="" />
-
-    <starcom.snd.sweded.visualizer.BarVisualizer
+    <click.dummer.have_radiosion.GrrrVisualizer
+        android:layout_gravity="center"
         android:id="@+id/visualizer"
-        android:layout_width="match_parent"
-        android:layout_height="250dp" />
+        android:background="@mipmap/back"
+        android:layout_width="343dp"
+        android:layout_height="400dp" />
 
 
 </LinearLayout>
