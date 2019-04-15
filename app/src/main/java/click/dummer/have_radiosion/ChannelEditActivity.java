@@ -112,7 +112,7 @@ public class ChannelEditActivity extends AppCompatActivity {
             }
         }
         // remove last \n
-        RockApplication.mPreferences.edit().putString("channels", sb.toString().substring(0, sb.length()-2)).commit();
+        RockApplication.mPreferences.edit().putString("channels", sb.toString().substring(0, sb.length()-1)).commit();
     }
 
     public void addLine(View v) {
