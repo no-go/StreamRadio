@@ -21,17 +21,15 @@ public class RockApplication extends Application {
             "Wackenradio§" +
             "http://wackenradio-high.rautemusik.fm\n" +
             "RadioBOB§" +
-            "http://streams.radiobob.de/bob-live/aac-64/mediaplayer\n" +
+            "http://streams.radiobob.de/bob-live/mp3-192/mediaplayer\n" +
             "RadioBOB harte Saite§" +
-            "http://streams.radiobob.de/bob-hartesaite/aac-64/mediaplayerbob\n" +
+            "http://streams.radiobob.de/bob-hartesaite/mp3-192/mediaplayerbob\n" +
             "RadioBOB Classics§" +
-            "http://streams.radiobob.de/bob-classicrock/aac-64/mediaplayer\n" +
-            "RadioBOB Metal§" +
-            "http://streams.radiobob.de/bob-metal/aac-64/mediaplayer\n" +
+            "http://streams.radiobob.de/bob-classicrock/mp3-192/mediaplayer\n" +
+            "RadioBOB Metall§" +
+            "http://streams.radiobob.de/bob-metal/mp3-192/mediaplayer\n" +
             "RadioBOB Metalcore§" +
-            "http://streams.radiobob.de/metalcore/aac-64/mediaplayer\n" +
-            "RadioBOB Grunge§" +
-            "http://streams.radiobob.de/bob-grunge/aac-64/mediaplayer\n" +
+            "http://streams.radiobob.de/metalcore/mp3-192/mediaplayer\n" +
             "Sunshine-live§" +
             "http://stream.sunshine-live.de/hq/mp3-128/surfmusik/\n" +
             "Japanrock§" +

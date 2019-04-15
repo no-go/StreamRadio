@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             ab.setDisplayShowHomeEnabled(true);
             ab.setHomeButtonEnabled(true);
             ab.setDisplayUseLogoEnabled(true);
-            ab.setLogo(R.mipmap.logo);
+            ab.setLogo(R.mipmap.logo_color);
             ab.setTitle(" " + getString(R.string.app_name));
             ab.setElevation(0);
         }
@@ -128,12 +128,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             mngr.createNotificationChannel(channel);
         }
 
-        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
+        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.logo_color);
         NotificationCompat.BigTextStyle bigStyle = new NotificationCompat.BigTextStyle();
         bigStyle.bigText(getString(R.string.playing));
 
         Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID_LOCATION)
-                .setSmallIcon(R.mipmap.logo)  // the status icon
+                .setSmallIcon(R.mipmap.logo_sw)  // the status icon
                 .setLargeIcon(largeIcon)
                 .setStyle(bigStyle)
                 .setPriority(NotificationCompat.PRIORITY_LOW) // sound off in 7.1 and below

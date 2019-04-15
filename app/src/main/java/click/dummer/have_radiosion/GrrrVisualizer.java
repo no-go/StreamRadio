@@ -11,7 +11,7 @@ import android.graphics.Path;
 import android.util.AttributeSet;
 
 public class GrrrVisualizer extends BaseVisualizer {
-    private float radiusMultiplier = 0.5f;
+    private float radiusMultiplier = 0.4f;
     private Paint paint2;
     private Paint paint4;
     private Paint paint5;

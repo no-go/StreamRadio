@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">HaveRadiosion</string>
-    <string name="ok">Okay</string>
     <string name="play">run</string>
     <string name="playing">playing</string>
     <string name="stop">snooze</string>
-    <string name="save">save</string>
-    <string name="channel_name">name</string>
-    <string name="edit_list">edit list</string>
+    <string name="edit_list">edit</string>
     <string name="dark">Dark !!</string>
     <string name="bat_optimization">disable power optimation</string>
 </resources>

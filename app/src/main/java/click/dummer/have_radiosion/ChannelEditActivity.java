@@ -64,8 +64,6 @@ public class ChannelEditActivity extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
             ab.setDisplayShowHomeEnabled(true);
             ab.setHomeButtonEnabled(true);
-            ab.setDisplayUseLogoEnabled(true);
-            ab.setLogo(R.mipmap.logo);
             ab.setTitle(" " + getString(R.string.edit_list));
             ab.setElevation(0);
         }
@@ -94,8 +92,9 @@ public class ChannelEditActivity extends AppCompatActivity {
             ll.addView(nameEdit.get(id), 0);
             ll.addView(urlEdit.get(id), 1);
             if(id%2 == 1) ll.setBackgroundColor(getResources().getColor(R.color.colorOdd));
-            nameEdit.get(id).setMinWidth(150);
-            urlEdit.get(id).setMinWidth(300);
+            nameEdit.get(id).setMinWidth(300);
+            nameEdit.get(id).setMaxWidth(300);
+            urlEdit.get(id).setMinWidth(500);
             linearLayout.addView(ll, id);
         }
     }
@@ -125,8 +124,9 @@ public class ChannelEditActivity extends AppCompatActivity {
         ll.addView(nameEdit.get(id), 0);
         ll.addView(urlEdit.get(id), 1);
         if(id%2 == 1) ll.setBackgroundColor(getResources().getColor(R.color.colorOdd));
-        nameEdit.get(id).setMinWidth(150);
-        urlEdit.get(id).setMinWidth(300);
+        nameEdit.get(id).setMinWidth(300);
+        nameEdit.get(id).setMaxWidth(300);
+        urlEdit.get(id).setMinWidth(500);
         linearLayout.addView(ll, id);
     }
 
