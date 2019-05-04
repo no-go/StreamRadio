@@ -1,0 +1,5 @@
+This app plays internet radio streams. The app is a fork of the WebRadio app - but with a changed editor, a focus on rock music and a comic music visualization. The design of the app has been renewed and some new features and corrections have been added (night mode, power saving, Notification Channel since android 8). By modifying the code a backwards compatibility back to Android 4.1 was reached.
+
+Thanks to <a href="https://github.com/Starcommander">Starcommander</a> for the WebRadio App.
+
+Thanks to <a href="https://github.com/GautamChibde">GautamChibde</a> for awesome <i>BaseVisualizer.java</i>

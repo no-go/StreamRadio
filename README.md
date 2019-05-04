@@ -1,13 +1,20 @@
-# HaveRadiosion (a Web Radio Player)
+# HaveRadiosion
 
-It has a music visualizer in a comic figure format.
+Internet radio player with comic figure as music visualizer.
+
+This app plays internet radio streams. The app is a fork of the WebRadio
+app - but with a changed editor, a focus on rock music and a comic
+music visualization. The design of the app has been renewed and some
+new features and corrections have been added (night mode, power
+saving, Notification Channel since android 8). By modifying the code
+a backwards compatibility back to Android 4.1 was reached.
 
 Credits to
 
 - [Starcommander](https://github.com/Starcommander) for the original [WebRadio](https://github.com/Starcommander/StreamRadio).
 - [GautamChibde](https://github.com/GautamChibde) for awesome [BaseVisualizer.java](https://github.com/GautamChibde/android-audio-visualizer).
 
-![Screenshot](picture.png)
+![Screenshot](metadata/en-US/images/phoneScreenshots/0.png)
 
 ## Get the App
 

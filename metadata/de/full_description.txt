@@ -1,0 +1,9 @@
+Diese App spielt Internet-Radio Streams. Die App ist eine überarbeitete Entwicklung der WebRadio App. Der
+Editor der Streams wurde komplett ausgetauscht und die hinterlegten Streams legen einen Fokus 
+auf Rock-Musik. Außerdem ist eine Musik-Visualisierung als Comic-Figur integriert. Das Design wurde komplett
+überarbeitet und ein paar weitere Funktionen und Bufixes beigefügt (optionales dunkles Theme, Energiespar-Modus abschaltbar). 
+Der Code wurde so angepasst, dass die App auch noch mit Android 4.1 läuft.
+
+Dank an <a href="https://github.com/Starcommander">Starcommander</a> für die WebRadio App.
+
+Dank an <a href="https://github.com/GautamChibde">GautamChibde</a> für die total nützliche <i>BaseVisualizer.java</i> Klasse!
