@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:id="@+id/mainLayout"
     android:padding="15dp"
-    tools:context=".WebRadio">
+    tools:context=".MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -26,6 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:onClick="onClick"
             android:background="@color/colorAccent"
             android:text="@string/play" />
     </LinearLayout>
@@ -40,7 +41,7 @@
         android:indeterminateOnly="false"
         android:visibility="invisible" />
 
-    <click.dummer.schenese.visualizer.MaulmiauVisualizer
+    <click.dummer.schenese.MaulmiauVisualizer
         android:layout_gravity="center"
         android:id="@+id/visualizer"
         android:background="@mipmap/back"

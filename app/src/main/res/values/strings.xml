@@ -1,23 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Schenese</string>
-    <string name="predefined_channels">Predef</string>
-    <string name="custom_channels">Mine</string>
-    <string name="channels">Channels</string>
-    <string name="ok">Okay</string>
     <string name="play">run</string>
+    <string name="playing">playing</string>
     <string name="stop">snooze</string>
-    <string name="save">saven</string>
-    <string name="channel_name">name</string>
-    <string name="edit_list">edit list</string>
-    <string name="edit">edit</string>
-    <string name="remove_channel">- channel</string>
-    <string name="add_channel">+ channel</string>
-    <string name="dark">Dark !!11elf</string>
-    <string name="error_write_channels">Error writing!</string>
-    <string name="busy">Player is busty</string>
-    <string name="loading" formatted="false">Huui to %s</string>
-    <string name="playing" formatted="false">now \'%s\' running</string>
-    <string name="bat_optimization">no akku optimi</string>
-    <string name="howto">longpress for add/edit dialog</string>
+    <string name="edit_list">edit</string>
+    <string name="dark">Dark !!</string>
+    <string name="bat_optimization">disable power optimation</string>
 </resources>
