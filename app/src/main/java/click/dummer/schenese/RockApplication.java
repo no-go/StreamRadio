@@ -44,7 +44,29 @@ public class RockApplication extends Application {
             "http://st02.dlf.de/dlf/02/56/ogg/stream.ogg\n" +
 
             "JAZZ lovers§" +
-            "http://streaming.radionomy.com/jazzlovers?lang=en-US";
+            "http://streaming.radionomy.com/jazzlovers?lang=en-US\n" +
+
+            "ACID Jazz§" +
+            "http://acidjazz.stream.laut.fm/acidjazz?t302=2019-05-18_21-11-59&uuid=b8563a96-26f5-4d6c-8496-650129c3c798\n" +
+
+            "Capital Public Radio Jazz§" +
+            "http://14543.live.streamtheworld.com:3690/JAZZSTREAM_SC\n" +
+
+            "DR P8 Radio Jazz§" +
+            "http://live-icy.gslb01.dr.dk/A/A22H.mp3\n" +
+
+            "Jazz Medley Webradio§" +
+            "http://server01.ouvir.radio.br:8006/stream\n" +
+
+            "1.FM Blue Radio§" +
+            "http://strm112.1.fm/blues_mobile_mp3\n" +
+
+            "Perfecto Blue§" +
+            "http://radioperfecto.net-radio.fr/perfectoblues.mp3\n" +
+
+            "CJRT JazzFM91 Grooveyard§" +
+            "http://streamergamma.jazz.fm:8002";
+
 
     public static SharedPreferences mPreferences;
 

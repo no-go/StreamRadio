@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import click.dummer.schenese.R;
-
 import android.graphics.Path;
 import android.util.AttributeSet;
 
@@ -16,6 +14,7 @@ public class MaulmiauVisualizer extends BaseVisualizer {
     private Paint paint3;
     private Paint paint4;
     private Paint paint5;
+    private Paint paint6;
 
     public MaulmiauVisualizer(Context context) {
         super(context);
@@ -46,11 +45,18 @@ public class MaulmiauVisualizer extends BaseVisualizer {
         paint5 = new Paint();
         paint5.setStyle(Paint.Style.FILL);
         paint5.setColor(Color.WHITE);
+        paint6 = new Paint();
+        paint6.setStyle(Paint.Style.FILL);
+        paint6.setColor(getResources().getColor(R.color.colorGras));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         if (bytes != null) {
+            float barWidth = getWidth() / 20;
+            float div = bytes.length / 20;
+            paint6.setStrokeWidth(barWidth - 5);
+
             Path path = new Path();
             Path path2 = new Path();
             Path armpath = new Path();
@@ -106,6 +112,13 @@ public class MaulmiauVisualizer extends BaseVisualizer {
             canvas.drawPath(armpath, paint);
             canvas.drawCircle(0.56f*getWidth(),0.85f*getWidth() - rocky, 0.06f*getWidth(), paint5);
             canvas.drawCircle(0.56f*getWidth(),0.85f*getWidth() - rocky, 0.06f*getWidth(), paint);
+
+            for (int i = 0; i < 20; i++) {
+                int bytePosition = (int) Math.ceil(i * div);
+                int top = getHeight() + ((byte) (Math.abs(bytes[bytePosition]) + 128)) * getHeight() / 512;
+                float barX = (i * barWidth) + (barWidth / 2);
+                canvas.drawLine(barX, getHeight()-18, barX, top-18, paint6);
+            }
         }
         super.onDraw(canvas);
     }
