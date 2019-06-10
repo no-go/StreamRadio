@@ -209,15 +209,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 42) {
             if(resultCode == Activity.RESULT_OK) {
-                streamPlayer.stop();
+                if (streamPlayer.mediaPlayer != null && streamPlayer.mediaPlayer.isPlaying()) streamPlayer.stop();
                 try {
-                    streamPlayer.mediaPlayer.setDataSource(getApplicationContext(), data.getData());
+                    if (streamPlayer.getMediaPlayer() == null) {
+                        streamPlayer.mediaPlayer = MediaPlayer.create(RockApplication.getContextOfApplication(), data.getData());
+                    } else {
+                        streamPlayer.mediaPlayer.setDataSource(RockApplication.getContextOfApplication(), data.getData());
+                    }
                     streamPlayer.mediaPlayer.prepare();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                streamPlayer.mediaPlayer.setLooping(true);
                 streamPlayer.mediaPlayer.start();
+                streamPlayer.mediaPlayer.setLooping(true);
             }
         }
     }

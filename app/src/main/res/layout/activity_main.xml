@@ -19,9 +19,11 @@
             android:id="@+id/mainSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:gravity="start" />
 
         <Button
+            android:visibility="gone"
             android:id="@+id/mainPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

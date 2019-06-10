@@ -12,37 +12,6 @@ public class RockApplication extends Application {
     private static Context contextOfApplication;
 
     public static String INITIAL_CHANNELS = "" +
-            "RockAntenne§" +
-            "http://mp3channels.webradio.antenne.de:80/rockantenne\n" +
-            "RockAntenne Metall§" +
-            "http://mp3channels.webradio.antenne.de:80/heavy-metal\n" +
-            "RockAntenne Classics§" +
-            "http://mp3channels.webradio.antenne.de:80/classic-perlen\n" +
-            "Wackenradio§" +
-            "http://wackenradio-high.rautemusik.fm\n" +
-            "RadioBOB (low)§" +
-            "http://streams.radiobob.de/bob-live/aac-64/mediaplayer\n" +
-            "RadioBOB harte Saite§" +
-            "http://streams.radiobob.de/bob-hartesaite/mp3-192/mediaplayerbob\n" +
-            "RadioBOB Classics§" +
-            "http://streams.radiobob.de/bob-classicrock/mp3-192/mediaplayer\n" +
-            "RadioBOB Metall§" +
-            "http://streams.radiobob.de/bob-metal/mp3-192/mediaplayer\n" +
-            "RadioBOB Metalcore (low)§" +
-            "http://streams.radiobob.de/metalcore/aac-64/mediaplayer\n" +
-            "Sunshine-live§" +
-            "http://stream.sunshine-live.de/hq/mp3-128/surfmusik/\n" +
-            "Japanrock§" +
-            "http://23.226.236.193:8100/;.mp3\n" +
-            "Fallout 76 General§" +
-            "http://fallout.fm:8000/falloutfm10.ogg\n" +
-
-            "WDR 5?!§" +
-            "http://addrad.io/4WRNFs\n" +
-
-            "DLF kultur?!§" +
-            "http://st02.dlf.de/dlf/02/56/ogg/stream.ogg\n" +
-
             "JAZZ lovers§" +
             "http://streaming.radionomy.com/jazzlovers?lang=en-US\n" +
 
