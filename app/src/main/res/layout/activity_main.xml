@@ -31,17 +31,7 @@
             android:text="@string/play" />
     </LinearLayout>
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:indeterminate="false"
-        android:max="100"
-        android:indeterminateOnly="false"
-        android:visibility="invisible" />
-
-    <click.dummer.schenese.MaulmiauVisualizer
+    <click.dummer.ooohAhhh.MaulmiauVisualizer
         android:layout_gravity="center"
         android:id="@+id/visualizer"
         android:background="@mipmap/back"

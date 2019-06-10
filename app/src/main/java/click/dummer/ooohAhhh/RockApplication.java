@@ -1,4 +1,4 @@
-package click.dummer.schenese;
+package click.dummer.ooohAhhh;
 
 import android.app.Application;
 import android.content.Context;

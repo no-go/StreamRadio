@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        applicationId "click.dummer.schenese"
+        applicationId "click.dummer.ooohahhh"
         minSdkVersion 16
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 22

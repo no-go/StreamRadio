@@ -1,49 +1,40 @@
-package click.dummer.schenese;
+package click.dummer.ooohAhhh;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
-import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.os.Bundle;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-
-    public static final String NOTIFICATION_CHANNEL_ID_LOCATION = "click_dummer_schenese_channel_location";
-    int NOTIFICATION = R.string.app_name;
 
     Button playButton;
     boolean asPlayButton = true;
     Spinner choice;
     WebStreamPlayer streamPlayer;
-    ActionBar ab;
+    boolean fulls = false;
 
     Menu optionsmenu;
-    ProgressBar progressBar;
     MaulmiauVisualizer gVisualizer;
     ArrayList<String> channels;
     String selectedChannel;
@@ -65,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         playButton = (Button) findViewById(R.id.mainPlay);
         choice = (Spinner) findViewById(R.id.mainSpinner);
-        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         gVisualizer = findViewById(R.id.visualizer);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getChannelNames());
@@ -77,15 +67,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         streamPlayer = WebStreamPlayer.getInstance();
         streamPlayer.setVisualizer(gVisualizer);
 
-        ab = getSupportActionBar();
-        if (ab != null) {
-            ab.setDisplayShowHomeEnabled(true);
-            ab.setHomeButtonEnabled(true);
-            ab.setDisplayUseLogoEnabled(true);
-            ab.setLogo(R.mipmap.logo);
-            ab.setTitle(" " + getString(R.string.app_name));
-            ab.setElevation(0);
-        }
+        toFullscreen();
     }
 
     public void onClick(View v) {
@@ -108,64 +90,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
     }
 
-    private void showNotification() {
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-        if (Build.VERSION.SDK_INT >= 26) {
-            NotificationManager mngr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            if (mngr.getNotificationChannel(NOTIFICATION_CHANNEL_ID_LOCATION) != null) {
-                mngr.deleteNotificationChannel(NOTIFICATION_CHANNEL_ID_LOCATION);
-            }
-            NotificationChannel channel = new NotificationChannel(
-                    NOTIFICATION_CHANNEL_ID_LOCATION,
-                    getString(R.string.app_name),
-                    NotificationManager.IMPORTANCE_LOW // sound off in 8 and higher
-            );
-            channel.setDescription(getString(R.string.app_name));
-            channel.enableLights(false);
-            channel.enableVibration(false);
-            mngr.createNotificationChannel(channel);
-        }
-
-        Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
-        NotificationCompat.BigTextStyle bigStyle = new NotificationCompat.BigTextStyle();
-        bigStyle.bigText(getString(R.string.playing));
-
-        Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID_LOCATION)
-                .setSmallIcon(R.mipmap.logo_sw)  // the status icon
-                .setLargeIcon(largeIcon)
-                .setStyle(bigStyle)
-                .setPriority(NotificationCompat.PRIORITY_LOW) // sound off in 7.1 and below
-                .setTicker(getString(R.string.playing))  // the status text
-                .setWhen(Calendar.getInstance().getTimeInMillis())  // the time stamp
-                .setContentTitle(getString(R.string.app_name))  // the label of the entry
-                .setContentText(getString(R.string.playing))  // the contents of the entry
-                .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
-                .setOngoing(true)                 // remove/only cancel by stop button
-                .build();
-        mNM.notify(NOTIFICATION, notification);
-    }
-
-    void hideNotification() {
-        NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        mNM.cancel(NOTIFICATION);
-    }
-
     private void stopped() {
         asPlayButton = true;
         playButton.setText(R.string.play);
-        progressBar.setIndeterminate(false);
-        progressBar.setVisibility(View.INVISIBLE);
-        hideNotification();
     }
 
     private void playing() {
         asPlayButton = false;
         playButton.setText(R.string.stop);
-        progressBar.setIndeterminate(true);
-        progressBar.setVisibility(View.VISIBLE);
-        showNotification();
     }
 
     @Override
@@ -178,11 +110,13 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_setting:
+            case R.id.action_open:
 
-                Intent intentfs = new Intent(MainActivity.this, ChannelEditActivity.class);
-                intentfs.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                startActivityForResult(intentfs, 42);
+                Intent intentFileChooser = new Intent()
+                        .setType(Intent.normalizeMimeType("audio/*"))
+                        .setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intentFileChooser, getString(R.string.open_file)), 42);
+
                 return true;
 
             case R.id.action_dark:
@@ -275,13 +209,52 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 42) {
             if(resultCode == Activity.RESULT_OK) {
-                ArrayAdapter adapter = (ArrayAdapter) choice.getAdapter();
-                adapter.clear();
-                ArrayList<String> cn = getChannelNames();
-                adapter.addAll(cn);
-                int idx = cn.indexOf(selectedChannel);
-                if (idx >= 0) { choice.setSelection(idx); }
+                streamPlayer.stop();
+                try {
+                    streamPlayer.mediaPlayer.setDataSource(getApplicationContext(), data.getData());
+                    streamPlayer.mediaPlayer.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                streamPlayer.mediaPlayer.setLooping(true);
+                streamPlayer.mediaPlayer.start();
             }
+        }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        toFullscreen();
+    }
+
+    @Override
+    protected void onPause() {
+        fulls = false;
+        super.onPause();
+    }
+
+    public void toFullscreen() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        if (!fulls) {
+            int uiOptions = getWindow().getDecorView().getSystemUiVisibility();
+            int newUiOptions = uiOptions;
+
+            if (Build.VERSION.SDK_INT >= 14) {
+                newUiOptions ^= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            }
+
+            if (Build.VERSION.SDK_INT >= 16) {
+                newUiOptions ^= View.SYSTEM_UI_FLAG_FULLSCREEN;
+            }
+
+            if (Build.VERSION.SDK_INT >= 18) {
+                newUiOptions ^= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+            }
+
+            getWindow().getDecorView().setSystemUiVisibility(newUiOptions);
+            fulls = true;
         }
     }
 }

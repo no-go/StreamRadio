@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Schenese</string>
+    <string name="app_name">ooohAhhh</string>
     <string name="play">run</string>
     <string name="playing">playing</string>
     <string name="stop">snooze</string>
-    <string name="edit_list">edit</string>
+    <string name="open_file">open</string>
     <string name="dark">Dark !!</string>
     <string name="bat_optimization">disable power optimation</string>
 </resources>

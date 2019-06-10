@@ -1,4 +1,4 @@
-package click.dummer.schenese;
+package click.dummer.ooohAhhh;
 
 import java.io.IOException;
 
@@ -13,7 +13,7 @@ public class WebStreamPlayer implements OnCompletionListener, OnErrorListener, O
 {
   public enum State { Preparing,Playing,Pause,Stopped };
   private static WebStreamPlayer instance;
-  private MediaPlayer mediaPlayer;
+  public MediaPlayer mediaPlayer;
   private State curState = State.Stopped;
   private  BaseVisualizer visualizer;
   private int sessionId = -1;
