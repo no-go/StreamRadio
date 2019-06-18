@@ -87,14 +87,14 @@ public class GrrrVisualizer extends BaseVisualizer {
             }
             paint.setStrokeWidth(0.011f*getWidth());
             float rocky = (float) Math.abs(bytes[300]);
-            armpath.moveTo(0.24f*getWidth(), 0.74f*getWidth());
-            armpath.lineTo(0.56f*getWidth(),0.85f*getWidth() - rocky - 0.05f*getWidth());
-            armpath.lineTo(0.56f*getWidth(),0.85f*getWidth() - rocky + 0.05f*getWidth());
-            armpath.lineTo(0.38f*getWidth(), 0.87f*getWidth());
+            armpath.moveTo(0.24f*getWidth(), 0.65f*getWidth());
+            armpath.lineTo(0.56f*getWidth(),0.9f*getWidth() - rocky - 0.05f*getWidth());
+            armpath.lineTo(0.56f*getWidth(),0.9f*getWidth() - rocky + 0.05f*getWidth());
+            armpath.lineTo(0.28f*getWidth(), 0.81f*getWidth());
             canvas.drawPath(armpath, paint4);
             canvas.drawPath(armpath, paint);
-            canvas.drawCircle(0.56f*getWidth(),0.85f*getWidth() - rocky, 0.06f*getWidth(), paint5);
-            canvas.drawCircle(0.56f*getWidth(),0.85f*getWidth() - rocky, 0.06f*getWidth(), paint);
+            canvas.drawCircle(0.56f*getWidth(),0.9f*getWidth() - rocky, 0.06f*getWidth(), paint5);
+            canvas.drawCircle(0.56f*getWidth(),0.9f*getWidth() - rocky, 0.06f*getWidth(), paint);
         }
         super.onDraw(canvas);
     }

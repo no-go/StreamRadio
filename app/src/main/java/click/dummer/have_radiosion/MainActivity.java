@@ -46,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ProgressBar progressBar;
     GrrrVisualizer gVisualizer;
     ArrayList<String> channels;
+    ArrayAdapter<String> dataAdapter;
     String selectedChannel;
 
     @Override
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         progressBar = (ProgressBar) findViewById(R.id.progressBar);
         gVisualizer = findViewById(R.id.visualizer);
 
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getChannelNames());
+        dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getChannelNames());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         choice.setAdapter(dataAdapter);
         choice.setOnItemSelectedListener(this);
@@ -130,14 +131,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.logo_color);
         NotificationCompat.BigTextStyle bigStyle = new NotificationCompat.BigTextStyle();
-        bigStyle.bigText(getString(R.string.playing));
+        bigStyle.bigText(choice.getSelectedItem().toString());
 
         Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID_LOCATION)
                 .setSmallIcon(R.mipmap.logo_sw)  // the status icon
                 .setLargeIcon(largeIcon)
                 .setStyle(bigStyle)
                 .setPriority(NotificationCompat.PRIORITY_LOW) // sound off in 7.1 and below
-                .setTicker(getString(R.string.playing))  // the status text
+                .setTicker(choice.getSelectedItem().toString())  // the status text
                 .setWhen(Calendar.getInstance().getTimeInMillis())  // the time stamp
                 .setContentTitle(getString(R.string.app_name))  // the label of the entry
                 .setContentText(getString(R.string.playing))  // the contents of the entry
@@ -251,11 +252,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return "";
     }
 
-    public ArrayList<String> readChannels() {
+    public void readChannels() {
         String dummy = RockApplication.mPreferences.getString("channels", RockApplication.INITIAL_CHANNELS);
         String[] chan = dummy.split("\n");
         channels = new ArrayList<>(Arrays.asList(chan));
-        return channels;
     }
 
     public void storeChannels() {
@@ -275,10 +275,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 42) {
             if(resultCode == Activity.RESULT_OK) {
-                ArrayAdapter adapter = (ArrayAdapter) choice.getAdapter();
-                adapter.clear();
+                dataAdapter.clear();
                 ArrayList<String> cn = getChannelNames();
-                adapter.addAll(cn);
+                dataAdapter.addAll(cn);
                 int idx = cn.indexOf(selectedChannel);
                 if (idx >= 0) { choice.setSelection(idx); }
             }
