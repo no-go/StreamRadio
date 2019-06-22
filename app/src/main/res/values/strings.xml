@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Oooh-Ahhh</string>
-    <string name="play">run</string>
-    <string name="playing">playing</string>
-    <string name="stop">snooze</string>
+    <string name="app_name">Ooohpn Breather</string>
     <string name="open_file">open</string>
     <string name="dark">Dark !!</string>
     <string name="bat_optimization">disable power optimation</string>

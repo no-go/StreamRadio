@@ -17,6 +17,32 @@
             app:showAsAction="never" />
     </group>
 
+    <item android:title="speed">
+        <menu>
+            <item
+                android:id="@+id/action_speed5"
+                android:orderInCategory="110"
+                android:title="5x per minute"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_speed8"
+                android:orderInCategory="110"
+                android:title="8x per minute"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_speed10"
+                android:orderInCategory="110"
+                android:title="10x per minute"
+                app:showAsAction="never" />
+            <item
+                android:id="@+id/action_speed15"
+                android:orderInCategory="110"
+                android:title="15x per minute"
+                app:showAsAction="never" />
+        </menu>
+    </item>
+
+
     <item
         android:id="@+id/action_power"
         android:orderInCategory="100"

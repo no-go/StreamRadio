@@ -28,9 +28,6 @@ import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    Button playButton;
-    boolean asPlayButton = true;
-    Spinner choice;
     WebStreamPlayer streamPlayer;
     boolean fulls = false;
 
@@ -54,14 +51,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         readChannels();
         storeChannels();
 
-        playButton = (Button) findViewById(R.id.mainPlay);
-        choice = (Spinner) findViewById(R.id.mainSpinner);
         gVisualizer = findViewById(R.id.visualizer);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getChannelNames());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        choice.setAdapter(dataAdapter);
-        choice.setOnItemSelectedListener(this);
+
         selectedChannel = getChannelNames().get(0);
 
         streamPlayer = WebStreamPlayer.getInstance();
@@ -70,35 +64,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         toFullscreen();
     }
 
-    public void onClick(View v) {
-        if (asPlayButton) {
-            try {
-                if (streamPlayer.getState() != WebStreamPlayer.State.Stopped) {
-                    throw new IllegalStateException("Player is busy on state: " + streamPlayer.getState());
-                }
-                selectedChannel = choice.getSelectedItem().toString();
-                streamPlayer.play(getUrl(selectedChannel));
-                playing();
-
-            } catch (Exception e) {
-                streamPlayer.stop();
-                stopped();
-            }
-        } else {
-            streamPlayer.stop();
-            stopped();
-        }
-    }
-
-    private void stopped() {
-        asPlayButton = true;
-        playButton.setText(R.string.play);
-    }
-
-    private void playing() {
-        asPlayButton = false;
-        playButton.setText(R.string.stop);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -117,6 +82,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                         .setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intentFileChooser, getString(R.string.open_file)), 42);
 
+                return true;
+            case R.id.action_speed5:
+                // 0.25 = 1x ein und 1x ausatmen in einer minute
+                gVisualizer.speed = 1.25f;
+                return true;
+            case R.id.action_speed8:
+                gVisualizer.speed = 2.0f;
+                return true;
+            case R.id.action_speed10:
+                gVisualizer.speed = 2.5f;
+                return true;
+            case R.id.action_speed15:
+                gVisualizer.speed = 3.75f;
                 return true;
 
             case R.id.action_dark:
@@ -222,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
                 streamPlayer.mediaPlayer.start();
                 streamPlayer.mediaPlayer.setLooping(true);
+                gVisualizer.mouthSize = 0;
+                gVisualizer.inbreath = true;
             }
         }
     }

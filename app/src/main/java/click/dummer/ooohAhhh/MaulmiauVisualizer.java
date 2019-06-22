@@ -14,6 +14,9 @@ public class MaulmiauVisualizer extends BaseVisualizer {
     private Paint paint3;
     private Paint paint4;
     private Paint paint5;
+    public float mouthSize;
+    public boolean inbreath;
+    public float speed;
 
     public MaulmiauVisualizer(Context context) {
         super(context);
@@ -29,12 +32,15 @@ public class MaulmiauVisualizer extends BaseVisualizer {
 
     @Override
     protected void init() {
+        mouthSize = 0;
+        speed = 3.0f;
+        inbreath = true;
         paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.BLACK);
         paint2 = new Paint();
         paint2.setStyle(Paint.Style.FILL);
-        paint2.setColor(Color.RED);
+        paint2.setColor(getResources().getColor(R.color.colorAccent));
         paint3 = new Paint();
         paint3.setStyle(Paint.Style.FILL);
         paint3.setColor(getResources().getColor(R.color.colorAccent2));
@@ -49,7 +55,13 @@ public class MaulmiauVisualizer extends BaseVisualizer {
     @Override
     protected void onDraw(Canvas canvas) {
         if (bytes != null) {
-            float barWidth = getWidth() / 20;
+            if (inbreath) {
+                mouthSize = mouthSize+speed;
+                if (mouthSize>90) inbreath = false;
+            } else {
+                mouthSize = mouthSize-speed;
+                if (mouthSize<20) inbreath = true;
+            }
 
             Path path = new Path();
             Path armpath = new Path();
@@ -73,11 +85,12 @@ public class MaulmiauVisualizer extends BaseVisualizer {
 
             canvas.drawPath(path, paint3);
             canvas.drawPath(path, paint);
-            if (bytes[1] > 64) {
-                paint.setStrokeWidth(0.03f*getWidth());
-                canvas.drawCircle(0.51f*getWidth(),0.62f*getWidth(), 0.025f*getWidth(), paint5);
-                canvas.drawCircle(0.51f*getWidth(),0.62f*getWidth(), 0.025f*getWidth(), paint);
-            }
+
+
+            canvas.drawCircle(0.51f*getWidth(),0.62f*getWidth(), 0.0007f*getWidth()*mouthSize, paint2);
+            canvas.drawCircle(0.51f*getWidth(),0.62f*getWidth(), 0.0007f*getWidth()*mouthSize, paint);
+
+
             paint.setStrokeWidth(0.011f*getWidth());
             float rocky = (float) Math.abs(bytes[300]);
             armpath.moveTo(0.34f*getWidth(), 0.74f*getWidth());
@@ -95,6 +108,7 @@ public class MaulmiauVisualizer extends BaseVisualizer {
             armpath2.lineTo(0.74f*getWidth(), 0.87f*getWidth());
             canvas.drawPath(armpath2, paint4);
             canvas.drawPath(armpath2, paint);
+
             canvas.drawCircle(0.93f*getWidth(),0.85f*getWidth() - rocky, 0.06f*getWidth(), paint5);
             canvas.drawCircle(0.93f*getWidth(),0.85f*getWidth() - rocky, 0.06f*getWidth(), paint);
 
