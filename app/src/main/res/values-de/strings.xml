@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HaveRadiosion</string>
+    <string name="dark">Dunkel !</string>
+    <string name="edit_list">Editieren</string>
+    <string name="stop">dösen</string>
+    <string name="play">spielen</string>
+    <string name="bat_optimization">Batterieoptimierung abstellen</string>
+</resources>

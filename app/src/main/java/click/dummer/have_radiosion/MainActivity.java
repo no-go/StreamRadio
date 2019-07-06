@@ -6,8 +6,11 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -87,6 +90,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             ab.setTitle(" " + getString(R.string.app_name));
             ab.setElevation(0);
         }
+
+        IntentFilter receiverFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
+        HeadsetStateReceiver receiver = new HeadsetStateReceiver();
+        registerReceiver(receiver, receiverFilter);
+
+        IntentFilter bFilter = new IntentFilter(BluetoothDevice.ACTION_ACL_DISCONNECTED);
+        HeadsetStateReceiver bReceiver = new HeadsetStateReceiver();
+        registerReceiver(bReceiver, bFilter);
     }
 
     public void onClick(View v) {
@@ -141,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .setTicker(choice.getSelectedItem().toString())  // the status text
                 .setWhen(Calendar.getInstance().getTimeInMillis())  // the time stamp
                 .setContentTitle(getString(R.string.app_name))  // the label of the entry
-                .setContentText(getString(R.string.playing))  // the contents of the entry
+                .setContentText(choice.getSelectedItem().toString())  // the contents of the entry
                 .setContentIntent(contentIntent)  // The intent to send when the entry is clicked
                 .setOngoing(true)                 // remove/only cancel by stop button
                 .build();
@@ -153,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         mNM.cancel(NOTIFICATION);
     }
 
-    private void stopped() {
+    public void stopped() {
         asPlayButton = true;
         playButton.setText(R.string.play);
         progressBar.setIndeterminate(false);
@@ -161,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         hideNotification();
     }
 
-    private void playing() {
+    public void playing() {
         asPlayButton = false;
         playButton.setText(R.string.stop);
         progressBar.setIndeterminate(true);
@@ -281,6 +292,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 int idx = cn.indexOf(selectedChannel);
                 if (idx >= 0) { choice.setSelection(idx); }
             }
+        }
+    }
+
+    private class HeadsetStateReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            streamPlayer.stop();
+            stopped();
         }
     }
 }
