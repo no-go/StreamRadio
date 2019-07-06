@@ -14,7 +14,7 @@ a backwards compatibility back to Android 4.1 was reached.
 <img src="https://fdroid.gitlab.io/artwork/badge/get-it-on.png" alt="Get it on F-Droid" height="80"/></a>
 
 A signed APK file can also be found [here](https://raw.githubusercontent.com/no-go/StreamRadio/master/app/release/click.dummer.have_radiosion.apk).
-SHA1 `c2de03b24014ae2e05cf563fc1b3d62d149c3d4d`
+SHA1 `a2d34276db342f1ee12a3723a48560ef546e3324`
 
 Credits to
 
