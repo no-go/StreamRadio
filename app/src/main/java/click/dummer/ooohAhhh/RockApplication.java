@@ -12,11 +12,29 @@ public class RockApplication extends Application {
     private static Context contextOfApplication;
 
     public static String INITIAL_CHANNELS = "" +
+            "RockAntenne Metall§" +
+            "http://mp3channels.webradio.antenne.de:80/heavy-metal\n" +
+
+            "Wackenradio§" +
+            "http://wackenradio-high.rautemusik.fm\n" +
+
+            "RadioBOB (low)§" +
+            "http://streams.radiobob.de/bob-live/aac-64/mediaplayer\n" +
+
+            "RadioBOB harte Saite§" +
+            "http://streams.radiobob.de/bob-hartesaite/mp3-192/mediaplayerbob\n" +
+
+            "Japanrock§" +
+            "http://23.226.236.193:8100/;.mp3\n" +
+
+            "Fallout 76 General§" +
+            "http://fallout.fm:8000/falloutfm10.ogg\n" +
+
+            "WDR 5§" +
+            "http://addrad.io/4WRNFs\n" +
+
             "JAZZ lovers§" +
             "http://streaming.radionomy.com/jazzlovers?lang=en-US\n" +
-
-            "ACID Jazz§" +
-            "http://acidjazz.stream.laut.fm/acidjazz?t302=2019-05-18_21-11-59&uuid=b8563a96-26f5-4d6c-8496-650129c3c798\n" +
 
             "Capital Public Radio Jazz§" +
             "http://14543.live.streamtheworld.com:3690/JAZZSTREAM_SC\n" +

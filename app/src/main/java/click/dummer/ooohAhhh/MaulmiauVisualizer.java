@@ -39,7 +39,7 @@ public class MaulmiauVisualizer extends BaseVisualizer {
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(Color.BLACK);
         paint2 = new Paint();
-        paint2.setStyle(Paint.Style.FILL);
+        paint2.setStyle(Paint.Style.STROKE);
         paint2.setColor(getResources().getColor(R.color.colorAccent));
         paint3 = new Paint();
         paint3.setStyle(Paint.Style.FILL);
@@ -65,6 +65,7 @@ public class MaulmiauVisualizer extends BaseVisualizer {
 
             Path path = new Path();
             Path armpath = new Path();
+            Path wizzardstick = new Path();
             Path armpath2 = new Path();
             paint3.setStrokeWidth(0.011f*getWidth());
 
@@ -87,12 +88,18 @@ public class MaulmiauVisualizer extends BaseVisualizer {
             canvas.drawPath(path, paint);
 
 
-            canvas.drawCircle(0.51f*getWidth(),0.62f*getWidth(), 0.0007f*getWidth()*mouthSize, paint2);
+            canvas.drawCircle(0.51f*getWidth(),0.62f*getWidth(), 0.0007f*getWidth()*mouthSize, paint5);
             canvas.drawCircle(0.51f*getWidth(),0.62f*getWidth(), 0.0007f*getWidth()*mouthSize, paint);
+
+            float rocky = (float) Math.abs(bytes[300]);
+
+            paint2.setStrokeWidth(0.011f*getWidth());
+            wizzardstick.moveTo(0.1f*getWidth(),0.95f*getWidth() - rocky);
+            wizzardstick.lineTo(0.25f*getWidth(),0.65f*getWidth() - rocky);
+            canvas.drawPath(wizzardstick, paint2);
 
 
             paint.setStrokeWidth(0.011f*getWidth());
-            float rocky = (float) Math.abs(bytes[300]);
             armpath.moveTo(0.34f*getWidth(), 0.74f*getWidth());
             armpath.lineTo(0.16f*getWidth(),0.85f*getWidth() - rocky - 0.05f*getWidth());
             armpath.lineTo(0.16f*getWidth(),0.85f*getWidth() - rocky + 0.05f*getWidth());

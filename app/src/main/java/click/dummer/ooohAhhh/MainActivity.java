@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     Menu optionsmenu;
     MaulmiauVisualizer gVisualizer;
+    Spinner choice;
     ArrayList<String> channels;
     String selectedChannel;
 
@@ -49,13 +50,14 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         setContentView(R.layout.activity_main);
         readChannels();
-        storeChannels();
 
         gVisualizer = findViewById(R.id.visualizer);
+        choice = (Spinner) findViewById(R.id.mainSpinner);
 
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getChannelNames());
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
+        choice.setAdapter(dataAdapter);
+        choice.setOnItemSelectedListener(this);
         selectedChannel = getChannelNames().get(0);
 
         streamPlayer = WebStreamPlayer.getInstance();
@@ -64,6 +66,19 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         toFullscreen();
     }
 
+    public void onClick(View v) {
+        streamPlayer.stop();
+        try {
+            if (streamPlayer.getState() != WebStreamPlayer.State.Stopped) {
+                throw new IllegalStateException("Player is busy on state: " + streamPlayer.getState());
+            }
+            selectedChannel = choice.getSelectedItem().toString();
+            streamPlayer.play(getUrl(selectedChannel));
+
+        } catch (Exception e) {
+            streamPlayer.stop();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -170,9 +185,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         return channels;
     }
 
-    public void storeChannels() {
-        RockApplication.mPreferences.edit().putString("channels", RockApplication.implode("\n", channels)).commit();
-    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

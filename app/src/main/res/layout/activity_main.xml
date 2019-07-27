@@ -16,6 +16,28 @@
         android:layout_width="343dp"
         android:layout_height="400dp" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:paddingTop="64dp"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/mainSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start" />
+
+        <Button
+            android:id="@+id/mainPlay"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@android:drawable/ic_media_next"
+            android:backgroundTint="@color/colorPrimary"
+            android:gravity="center"
+            android:onClick="onClick" />
+    </LinearLayout>
 
 </LinearLayout>
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Ooohpn Breather</string>
-    <string name="open_file">open</string>
-    <string name="dark">Dark !!</string>
-    <string name="bat_optimization">disable power optimation</string>
+    <string name="app_name">oh-Ah Breath</string>
+    <string name="open_file">open audio …</string>
+    <string name="dark">Dark Theme</string>
+    <string name="bat_optimization">disable power opt.</string>
 </resources>
