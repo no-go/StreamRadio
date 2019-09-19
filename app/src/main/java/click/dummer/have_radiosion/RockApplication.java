@@ -65,7 +65,13 @@ public class RockApplication extends Application {
             "http://radioperfecto.net-radio.fr/perfectoblues.mp3\n" +
 
             "CJRT JazzFM91 Grooveyard§" +
-            "http://streamergamma.jazz.fm:8002";
+            "http://streamergamma.jazz.fm:8002\n" +
+            
+            "TeluguOne Radio§"
+            "http://173.203.133.187:9700/;stream/1\n" +
+            
+            "Desi Radio (Panjabi)§" +
+            "http://desi.canstream.co.uk:8001/live.mp3";
 
     public static SharedPreferences mPreferences;
 

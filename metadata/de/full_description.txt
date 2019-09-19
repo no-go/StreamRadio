@@ -3,3 +3,7 @@ Diese App spielt Internet-Radio Streams. Die App ist eine überarbeitete Entwick
 Dank an <a href="https://github.com/Starcommander">Starcommander</a> für die WebRadio App.
 
 Dank an <a href="https://github.com/GautamChibde">GautamChibde</a> für die total nützliche <i>BaseVisualizer.java</i> Klasse!
+
+Dank an <a href="https://github.com/leela52452">Leela</a> für eine Übersetzung in Telugu. Diese Sprache wird von ca. 81 Million Menschen in Süd Indien gesprochen.
+
+Ohne weltweite Kooperation via Github und FOSS (free open source software) wäre das alles nicht möglich!
