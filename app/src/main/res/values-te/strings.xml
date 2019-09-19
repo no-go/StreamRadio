@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HaveRadiosion</string>
+    <string name="play">ఆడించు</string>
+    <string name="stop">ఆపు</string>
+    <string name="edit_list">సవరించు</string>
+    <string name="dark">చీకటి !</string>
+    <string name="bat_optimization">శక్తి ఆప్టిమైజేషన్‌ను నిలిపివేయండి</string>
+</resources>
